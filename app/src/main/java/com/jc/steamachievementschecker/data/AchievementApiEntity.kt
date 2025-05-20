@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.data
+package com.jc.steamachievementschecker.data
 
 data class PlayerStatsResponseApiEntity(
     val playerstats: PlayerStatsApiEntity

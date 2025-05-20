@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.presentation.achievementslist
+package com.jc.steamachievementschecker.presentation.achievementslist
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

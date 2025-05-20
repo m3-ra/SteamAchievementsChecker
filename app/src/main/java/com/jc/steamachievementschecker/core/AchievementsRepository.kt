@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.core
+package com.jc.steamachievementschecker.core
 
 interface AchievementsRepository {
 

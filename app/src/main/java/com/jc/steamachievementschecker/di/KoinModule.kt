@@ -1,11 +1,11 @@
-package com.example.steamachievementschecker.di
+package com.jc.steamachievementschecker.di
 
-import com.example.steamachievementschecker.BuildConfig
-import com.example.steamachievementschecker.core.AchievementsRepository
-import com.example.steamachievementschecker.core.GetMyAchievementsUseCase
-import com.example.steamachievementschecker.data.SteamAchievementsRepository
-import com.example.steamachievementschecker.data.SteamApi
-import com.example.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
+import com.jc.steamachievementschecker.BuildConfig
+import com.jc.steamachievementschecker.core.AchievementsRepository
+import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
+import com.jc.steamachievementschecker.data.SteamAchievementsRepository
+import com.jc.steamachievementschecker.data.SteamApi
+import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

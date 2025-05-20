@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.presentation.theme
+package com.jc.steamachievementschecker.presentation.theme
 
 import android.app.Activity
 import android.os.Build

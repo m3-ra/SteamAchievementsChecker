@@ -1,6 +1,6 @@
-package com.example.steamachievementschecker.data
+package com.jc.steamachievementschecker.data
 
-import com.example.steamachievementschecker.core.AchievementsRepository
+import com.jc.steamachievementschecker.core.AchievementsRepository
 
 class SteamAchievementsRepository(
     private val steamApi: SteamApi

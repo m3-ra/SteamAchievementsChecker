@@ -1,7 +1,7 @@
-package com.example.steamachievementschecker.presentation
+package com.jc.steamachievementschecker.presentation
 
 import android.app.Application
-import com.example.steamachievementschecker.di.appModule
+import com.jc.steamachievementschecker.di.appModule
 import org.koin.core.context.GlobalContext.startKoin
 
 class MainApplication : Application() {

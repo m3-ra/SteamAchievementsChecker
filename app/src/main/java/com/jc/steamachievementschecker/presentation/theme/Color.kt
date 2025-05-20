@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.presentation.theme
+package com.jc.steamachievementschecker.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker.data
+package com.jc.steamachievementschecker.data
 
 object SteamSecrets {
 

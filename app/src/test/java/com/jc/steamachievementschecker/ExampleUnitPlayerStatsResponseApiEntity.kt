@@ -1,4 +1,4 @@
-package com.example.steamachievementschecker
+package com.jc.steamachievementschecker
 
 import org.junit.Test
 

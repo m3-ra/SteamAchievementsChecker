@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.steamachievementschecker"
+    namespace = "com.jc.steamachievementschecker"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.steamachievementschecker"
+        applicationId = "com.jc.steamachievementschecker"
         minSdk = 32
         targetSdk = 35
         versionCode = 1
