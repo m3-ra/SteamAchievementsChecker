@@ -2,6 +2,7 @@ package com.jc.steamachievementschecker.data
 
 import com.jc.steamachievementschecker.core.AchievementsRepository
 import com.jc.steamachievementschecker.core.Game
+import java.io.IOException
 
 class SteamAchievementsRepository(
     private val steamApi: SteamApi
@@ -21,6 +22,8 @@ class SteamAchievementsRepository(
             val raw = allAchievements
                 .filter { it.achieved == 1 }.size.toDouble() / allAchievements.size
             return (raw * 100).toInt()
+        } catch (ex: IOException) {
+            return getAchievementsPercentageByGame(appId)
         } catch (t: Throwable) {
             return 0
         }
