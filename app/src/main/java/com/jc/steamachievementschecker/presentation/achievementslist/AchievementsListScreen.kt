@@ -9,11 +9,11 @@ import org.koin.androidx.compose.koinViewModel
 fun AchievementsListScreen(
     viewModel: AchievementsListViewModel = koinViewModel()
 ) {
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit) {
         viewModel.fetchMyAchievements()
     }
 
-    AchievementsListView()
+    AchievementsListView(uiState)
 }
