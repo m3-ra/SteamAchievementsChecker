@@ -56,6 +56,8 @@ dependencies {
     implementation(libs.loggingInterceptor)
     implementation(libs.koinCompose)
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutinesTest)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
