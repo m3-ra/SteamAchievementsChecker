@@ -2,7 +2,10 @@ package com.jc.steamachievementschecker.presentation.achievementslist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -32,7 +35,15 @@ internal fun AchievementsListView(
 
 @Composable
 internal fun GamesList(games: List<GameInfo>) {
-    Text(text = "TODO")
+    LazyColumn {
+        items(games) { game ->
+            Row(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(text = "${game.name} - ${game.achievementsPercentage}%")
+            }
+        }
+    }
 }
 
 @Preview(showBackground = true)
@@ -47,6 +58,14 @@ private fun AchievementsListViewLoadingPreview() {
 @Composable
 private fun AchievementsListViewGamesPreview() {
     SteamAchievementsCheckerTheme {
-        AchievementsListView(uiState = Success(emptyList()))
+        AchievementsListView(
+            uiState = Success(
+                listOf(
+                    GameInfo(2, "Game abc", 100),
+                    GameInfo(3, "Game def", 50),
+                    GameInfo(1, "Game xyz", 50)
+                )
+            )
+        )
     }
 }
