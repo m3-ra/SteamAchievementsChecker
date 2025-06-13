@@ -12,5 +12,5 @@ interface GameInfoDao {
     suspend fun getAll(): List<GameInfoDbEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(games: List<GameInfoDbEntity>)
+    suspend fun insertAll(games: List<GameInfoDbEntity>)
 }

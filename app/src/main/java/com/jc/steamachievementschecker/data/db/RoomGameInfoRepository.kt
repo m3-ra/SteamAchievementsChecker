@@ -11,8 +11,19 @@ class RoomGameInfoRepository(
 
     override suspend fun getAllGameInfo() = gameInfoDao.getAll().map { it.toGameInfo() }
 
+    override suspend fun saveGameInfo(gameInfo: List<GameInfo>) {
+        gameInfoDao.insertAll(gameInfo.map { it.toGameInfoDbEntity() })
+    }
+
     private fun GameInfoDbEntity.toGameInfo() =
         GameInfo(
+            id = id,
+            name = name,
+            achievementsPercentage = achievementsPercentage
+        )
+
+    private fun GameInfo.toGameInfoDbEntity() =
+        GameInfoDbEntity(
             id = id,
             name = name,
             achievementsPercentage = achievementsPercentage

@@ -1,7 +1,10 @@
 package com.jc.steamachievementschecker.data.db
 
 import com.jc.steamachievementschecker.core.GameInfo
+import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -45,5 +48,21 @@ class RoomGameInfoRepositoryTest {
                 GameInfo(2, "Game 2", 75)
             )
             assertEquals(expected, result)
+        }
+
+    @Test
+    fun `SHOULD convert to db entity WHEN saving game info`() =
+        runTest {
+            // Arrange
+            coEvery { gameInfoDao.insertAll(any()) } just Runs
+            val games = listOf(GameInfo(1, "Game 1", 50))
+
+            // Act
+            repository.saveGameInfo(games)
+
+            // Assert
+            coVerify {
+                gameInfoDao.insertAll(listOf(GameInfoDbEntity(1, "Game 1", 50)))
+            }
         }
 }

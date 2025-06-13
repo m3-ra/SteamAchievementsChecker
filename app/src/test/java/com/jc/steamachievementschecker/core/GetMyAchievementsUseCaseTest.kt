@@ -1,7 +1,9 @@
 package com.jc.steamachievementschecker.core
 
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -18,6 +20,7 @@ class GetMyAchievementsUseCaseTest {
         runTest {
             // Arrange
             coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns false
+            coEvery { gameInfoRepository.saveGameInfo(any()) } just Runs
             coEvery {
                 achievementsRepository.getMyGames()
             } returns listOf(
@@ -55,5 +58,21 @@ class GetMyAchievementsUseCaseTest {
             // Assert
             coVerify(exactly = 1) { gameInfoRepository.getAllGameInfo() }
             coVerify(exactly = 0) { achievementsRepository.getAchievementsPercentageByGame(any()) }
+        }
+
+    @Test
+    fun `SHOULD save game info to db WHEN getting data online`() =
+        runTest {
+            // Arrange
+            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns false
+            coEvery { gameInfoRepository.saveGameInfo(any()) } just Runs
+            coEvery { achievementsRepository.getMyGames() } returns listOf(Game(1, "Game xyz"))
+            coEvery { achievementsRepository.getAchievementsPercentageByGame(1) } returns 50
+
+            // Act
+            useCase()
+
+            // Assert
+            coVerify { gameInfoRepository.saveGameInfo(listOf(GameInfo(1, "Game xyz", 50))) }
         }
 }

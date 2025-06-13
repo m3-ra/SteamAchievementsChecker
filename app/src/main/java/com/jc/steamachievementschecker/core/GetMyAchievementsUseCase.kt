@@ -17,6 +17,8 @@ class GetMyAchievementsUseCase(
                     GameInfo(game.id, game.name, achievementsPercentage)
                 }.sortedWith(
                     compareByDescending<GameInfo> { it.achievementsPercentage }.thenBy { it.name }
-                )
+                ).also {
+                    gameInfoRepository.saveGameInfo(it)
+                }
         }
 }
