@@ -1,6 +1,7 @@
 package com.jc.steamachievementschecker.core
 
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -9,12 +10,14 @@ import org.junit.Test
 class GetMyAchievementsUseCaseTest {
 
     private val achievementsRepository: AchievementsRepository = mockk()
-    private val useCase = GetMyAchievementsUseCase(achievementsRepository)
+    private val gameInfoRepository: GameInfoRepository = mockk()
+    private val useCase = GetMyAchievementsUseCase(achievementsRepository, gameInfoRepository)
 
     @Test
     fun `SHOULD sort games by achievements percentage then by name WHEN getting games info`() =
         runTest {
             // Arrange
+            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns false
             coEvery {
                 achievementsRepository.getMyGames()
             } returns listOf(
@@ -37,5 +40,20 @@ class GetMyAchievementsUseCaseTest {
                 GameInfo(1, "Game xyz", 50)
             )
             assertEquals(expected, result)
+        }
+
+    @Test
+    fun `SHOULD fetch from db WHEN data exists locally`() =
+        runTest {
+            // Arrange
+            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns true
+            coEvery { gameInfoRepository.getAllGameInfo() } returns listOf(mockk())
+
+            // Act
+            useCase()
+
+            // Assert
+            coVerify(exactly = 1) { gameInfoRepository.getAllGameInfo() }
+            coVerify(exactly = 0) { achievementsRepository.getAchievementsPercentageByGame(any()) }
         }
 }

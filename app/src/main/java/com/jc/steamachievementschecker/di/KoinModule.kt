@@ -3,9 +3,11 @@ package com.jc.steamachievementschecker.di
 import androidx.room.Room
 import com.jc.steamachievementschecker.BuildConfig
 import com.jc.steamachievementschecker.core.AchievementsRepository
+import com.jc.steamachievementschecker.core.GameInfoRepository
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
 import com.jc.steamachievementschecker.data.db.AppDatabase
 import com.jc.steamachievementschecker.data.db.GameInfoDao
+import com.jc.steamachievementschecker.data.db.RoomGameInfoRepository
 import com.jc.steamachievementschecker.data.network.SteamAchievementsRepository
 import com.jc.steamachievementschecker.data.network.SteamApi
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
@@ -60,6 +62,7 @@ private val viewModelModule = module {
 
 private val coreModule = module {
     singleOf(::SteamAchievementsRepository).bind(AchievementsRepository::class)
+    singleOf(::RoomGameInfoRepository).bind(GameInfoRepository::class)
     singleOf(::GetMyAchievementsUseCase)
 }
 
