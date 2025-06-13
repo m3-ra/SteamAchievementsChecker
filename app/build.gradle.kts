@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -55,13 +56,21 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.loggingInterceptor)
     implementation(libs.koinCompose)
+    implementation(libs.roomRuntime)
+    implementation(libs.roomKtx)
+    implementation(libs.koinCompose)
+
+    ksp(libs.roomCompiler)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.coroutinesTest)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 }
