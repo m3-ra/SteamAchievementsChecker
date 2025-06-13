@@ -1,14 +1,18 @@
 package com.jc.steamachievementschecker.di
 
+import androidx.room.Room
 import com.jc.steamachievementschecker.BuildConfig
 import com.jc.steamachievementschecker.core.AchievementsRepository
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
+import com.jc.steamachievementschecker.data.db.AppDatabase
+import com.jc.steamachievementschecker.data.db.GameInfoDao
 import com.jc.steamachievementschecker.data.network.SteamAchievementsRepository
 import com.jc.steamachievementschecker.data.network.SteamApi
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind
@@ -16,6 +20,8 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+
+private const val DATABASE_NAME = "app-database"
 
 private val apiModule = module {
     single<Retrofit> {
@@ -57,4 +63,18 @@ private val coreModule = module {
     singleOf(::GetMyAchievementsUseCase)
 }
 
-val appModule = apiModule + viewModelModule + coreModule
+private val daoModule = module {
+    single<AppDatabase> {
+        Room
+            .databaseBuilder(
+                androidContext(),
+                AppDatabase::class.java,
+                DATABASE_NAME
+            ).fallbackToDestructiveMigration(true)
+            .build()
+    }
+
+    single<GameInfoDao> { get<AppDatabase>().gameInfoDao() }
+}
+
+val appModule = apiModule + viewModelModule + coreModule + daoModule
