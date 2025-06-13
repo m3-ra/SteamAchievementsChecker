@@ -6,9 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun AchievementsListScreen(
-    viewModel: AchievementsListViewModel = koinViewModel()
-) {
+fun AchievementsListScreen(viewModel: AchievementsListViewModel = koinViewModel()) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
 
     LaunchedEffect(Unit) {

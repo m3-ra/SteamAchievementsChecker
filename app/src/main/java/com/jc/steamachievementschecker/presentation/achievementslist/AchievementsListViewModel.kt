@@ -26,6 +26,8 @@ class AchievementsListViewModel(
 
     sealed interface AchievementsListUiState {
         data object Loading : AchievementsListUiState
-        data class Success(val games: List<GameInfo>) : AchievementsListUiState
+        data class Success(
+            val games: List<GameInfo>
+        ) : AchievementsListUiState
     }
 }

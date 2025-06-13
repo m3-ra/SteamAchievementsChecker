@@ -34,7 +34,6 @@ class SteamAchievementsRepositoryTest {
                         )
                     )
                 )
-
             )
             coEvery { steamApi.getMyGames() } returns response
 
@@ -57,10 +56,14 @@ class SteamAchievementsRepositoryTest {
                     success = true,
                     achievements = listOf(
                         AchievementApiEntity(
-                            apiname = "Elton McCarty", achieved = 1, unlocktime = 1560
+                            apiname = "Elton McCarty",
+                            achieved = 1,
+                            unlocktime = 1560
                         ),
                         AchievementApiEntity(
-                            apiname = "Rudolph Forbes", achieved = 0, unlocktime = 3737
+                            apiname = "Rudolph Forbes",
+                            achieved = 0,
+                            unlocktime = 3737
                         )
                     )
                 )

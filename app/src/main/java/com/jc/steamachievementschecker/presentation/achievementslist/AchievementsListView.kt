@@ -18,9 +18,7 @@ import com.jc.steamachievementschecker.presentation.achievementslist.Achievement
 import com.jc.steamachievementschecker.presentation.theme.SteamAchievementsCheckerTheme
 
 @Composable
-internal fun AchievementsListView(
-    uiState: AchievementsListUiState
-) {
+internal fun AchievementsListView(uiState: AchievementsListUiState) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

@@ -1,0 +1,9 @@
+[*.{kt, kts}]
+# Disable trailing commas on the whole project
+ij_kotlin_allow_trailing_comma = false
+ij_kotlin_allow_trailing_comma_on_call_site = false
+
+ktlint_standard_multiline-expression-wrapping = disabled
+ktlint_standard_no-empty-first-line-in-class-body = disabled
+ktlint_standard_blank-line-before-declaration = disabled
+ktlint_function_naming_ignore_when_annotated_with=Composable

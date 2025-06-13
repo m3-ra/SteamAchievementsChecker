@@ -12,6 +12,6 @@ interface SteamApi {
 
     @GET("/ISteamUserStats/GetPlayerAchievements/v0001/?&key=$API_KEY&steamid=$USER_ID")
     suspend fun getAchievementsByGame(
-        @Query("appid") appId: Int,
+        @Query("appid") appId: Int
     ): PlayerStatsResponseApiEntity
 }

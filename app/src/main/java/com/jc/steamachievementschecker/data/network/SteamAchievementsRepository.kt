@@ -19,8 +19,8 @@ class SteamAchievementsRepository(
         try {
             val callResult = steamApi.getAchievementsByGame(appId)
             val allAchievements = callResult.playerstats.achievements
-            val raw = allAchievements
-                .filter { it.achieved == 1 }.size.toDouble() / allAchievements.size
+            val allAchieved = allAchievements.filter { it.achieved == 1 }.size.toDouble()
+            val raw = allAchieved / allAchievements.size
             return (raw * 100).toInt()
         } catch (ex: IOException) {
             return getAchievementsPercentageByGame(appId)
