@@ -1,7 +1,7 @@
-package com.jc.steamachievementschecker.data
+package com.jc.steamachievementschecker.data.network
 
-import com.jc.steamachievementschecker.data.SteamSecrets.API_KEY
-import com.jc.steamachievementschecker.data.SteamSecrets.USER_ID
+import com.jc.steamachievementschecker.data.network.SteamSecrets.API_KEY
+import com.jc.steamachievementschecker.data.network.SteamSecrets.USER_ID
 import retrofit2.http.GET
 import retrofit2.http.Query
 

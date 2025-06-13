@@ -14,4 +14,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/jc/steamachievementschecker/data/SteamSecrets.kt
+/app/src/main/java/com/jc/steamachievementschecker/data/network/SteamSecrets.kt

@@ -1,4 +1,4 @@
-package com.jc.steamachievementschecker.data
+package com.jc.steamachievementschecker.data.network
 
 import com.jc.steamachievementschecker.core.AchievementsRepository
 import com.jc.steamachievementschecker.core.Game

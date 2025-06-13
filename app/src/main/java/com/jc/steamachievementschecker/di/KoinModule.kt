@@ -3,8 +3,8 @@ package com.jc.steamachievementschecker.di
 import com.jc.steamachievementschecker.BuildConfig
 import com.jc.steamachievementschecker.core.AchievementsRepository
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
-import com.jc.steamachievementschecker.data.SteamAchievementsRepository
-import com.jc.steamachievementschecker.data.SteamApi
+import com.jc.steamachievementschecker.data.network.SteamAchievementsRepository
+import com.jc.steamachievementschecker.data.network.SteamApi
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient

@@ -1,4 +1,4 @@
-package com.jc.steamachievementschecker.data
+package com.jc.steamachievementschecker.data.network
 
 data class MyGamesApiEntity(
     val response: GameResponseApiEntity
