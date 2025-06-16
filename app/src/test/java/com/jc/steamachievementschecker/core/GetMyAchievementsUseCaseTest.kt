@@ -1,9 +1,7 @@
 package com.jc.steamachievementschecker.core
 
-import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
@@ -11,39 +9,13 @@ import org.junit.Test
 
 class GetMyAchievementsUseCaseTest {
 
-    private val achievementsRepository: AchievementsRepository = mockk()
+    private val fetchAchievementsOnlineUseCase: FetchAchievementsOnlineUseCase = mockk()
     private val gameInfoRepository: GameInfoRepository = mockk()
-    private val useCase = GetMyAchievementsUseCase(achievementsRepository, gameInfoRepository)
 
-    @Test
-    fun `SHOULD sort games by achievements percentage then by name WHEN getting games info`() =
-        runTest {
-            // Arrange
-            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns false
-            coEvery { gameInfoRepository.saveGameInfo(any()) } just Runs
-            coEvery {
-                achievementsRepository.getMyGames()
-            } returns listOf(
-                Game(1, "Game xyz"),
-                Game(2, "Game abc"),
-                Game(3, "Game def")
-            )
-
-            coEvery { achievementsRepository.getAchievementsPercentageByGame(1) } returns 50
-            coEvery { achievementsRepository.getAchievementsPercentageByGame(2) } returns 100
-            coEvery { achievementsRepository.getAchievementsPercentageByGame(3) } returns 50
-
-            // Act
-            val result = useCase()
-
-            // Assert
-            val expected = listOf(
-                GameInfo(2, "Game abc", 100),
-                GameInfo(3, "Game def", 50),
-                GameInfo(1, "Game xyz", 50)
-            )
-            assertEquals(expected, result)
-        }
+    private val useCase = GetMyAchievementsUseCase(
+        fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
+        gameInfoRepository = gameInfoRepository
+    )
 
     @Test
     fun `SHOULD fetch from db WHEN data exists locally`() =
@@ -57,27 +29,26 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             coVerify(exactly = 1) { gameInfoRepository.getAllGameInfo() }
-            coVerify(exactly = 0) { achievementsRepository.getAchievementsPercentageByGame(any()) }
+            coVerify(exactly = 0) { fetchAchievementsOnlineUseCase() }
         }
 
     @Test
-    fun `SHOULD save game info to db WHEN getting data online`() =
+    fun `SHOULD fetch online WHEN data doesn't exist locally`() =
         runTest {
             // Arrange
             coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns false
-            coEvery { gameInfoRepository.saveGameInfo(any()) } just Runs
-            coEvery { achievementsRepository.getMyGames() } returns listOf(Game(1, "Game xyz"))
-            coEvery { achievementsRepository.getAchievementsPercentageByGame(1) } returns 50
+            coEvery { fetchAchievementsOnlineUseCase() } returns listOf(mockk())
 
             // Act
             useCase()
 
             // Assert
-            coVerify { gameInfoRepository.saveGameInfo(listOf(GameInfo(1, "Game xyz", 50))) }
+            coVerify(exactly = 0) { gameInfoRepository.getAllGameInfo() }
+            coVerify(exactly = 1) { fetchAchievementsOnlineUseCase() }
         }
 
     @Test
-    fun `SHOULD apply sorting WHEN fetching data offline`() =
+    fun `SHOULD apply sorting WHEN data has been fetched`() =
         runTest {
             // Arrange
             coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns true
