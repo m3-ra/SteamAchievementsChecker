@@ -75,4 +75,29 @@ class GetMyAchievementsUseCaseTest {
             // Assert
             coVerify { gameInfoRepository.saveGameInfo(listOf(GameInfo(1, "Game xyz", 50))) }
         }
+
+    @Test
+    fun `SHOULD apply sorting WHEN fetching data offline`() =
+        runTest {
+            // Arrange
+            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns true
+            coEvery {
+                gameInfoRepository.getAllGameInfo()
+            } returns listOf(
+                GameInfo(1, "Game xyz", 50),
+                GameInfo(2, "Game abc", 100),
+                GameInfo(3, "Game def", 50)
+            )
+
+            // Act
+            val result = useCase()
+
+            // Assert
+            val expected = listOf(
+                GameInfo(2, "Game abc", 100),
+                GameInfo(3, "Game def", 50),
+                GameInfo(1, "Game xyz", 50)
+            )
+            assertEquals(expected, result)
+        }
 }

@@ -5,8 +5,8 @@ class GetMyAchievementsUseCase(
     private val gameInfoRepository: GameInfoRepository
 ) {
 
-    suspend operator fun invoke(): List<GameInfo> =
-        if (gameInfoRepository.hasOfflineDataAvailable()) {
+    suspend operator fun invoke(): List<GameInfo> {
+        val gameInfo = if (gameInfoRepository.hasOfflineDataAvailable()) {
             gameInfoRepository.getAllGameInfo()
         } else {
             achievementsRepository
@@ -15,10 +15,12 @@ class GetMyAchievementsUseCase(
                     val achievementsPercentage =
                         achievementsRepository.getAchievementsPercentageByGame(game.id)
                     GameInfo(game.id, game.name, achievementsPercentage)
-                }.sortedWith(
-                    compareByDescending<GameInfo> { it.achievementsPercentage }.thenBy { it.name }
-                ).also {
+                }.also {
                     gameInfoRepository.saveGameInfo(it)
                 }
         }
+        return gameInfo.sortedWith(
+            compareByDescending<GameInfo> { it.achievementsPercentage }.thenBy { it.name }
+        )
+    }
 }
