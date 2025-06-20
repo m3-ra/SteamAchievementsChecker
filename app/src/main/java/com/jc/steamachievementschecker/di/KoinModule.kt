@@ -7,6 +7,7 @@ import com.jc.steamachievementschecker.core.FetchAchievementsOnlineUseCase
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
 import com.jc.steamachievementschecker.core.GameInfoRepository
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
+import com.jc.steamachievementschecker.core.SortGameInfoUseCase
 import com.jc.steamachievementschecker.data.db.AppDatabase
 import com.jc.steamachievementschecker.data.db.GameInfoDao
 import com.jc.steamachievementschecker.data.db.RoomGameInfoRepository
@@ -68,6 +69,7 @@ private val coreModule = module {
     singleOf(::GetMyAchievementsUseCase)
     singleOf(::ForceRefreshMyAchievementsUseCase)
     singleOf(::FetchAchievementsOnlineUseCase)
+    singleOf(::SortGameInfoUseCase)
 }
 
 private val daoModule = module {
