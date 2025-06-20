@@ -2,20 +2,29 @@ package com.jc.steamachievementschecker.core
 
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 
 class GetMyAchievementsUseCaseTest {
 
     private val fetchAchievementsOnlineUseCase: FetchAchievementsOnlineUseCase = mockk()
     private val gameInfoRepository: GameInfoRepository = mockk()
+    private val sortGameInfoUseCase: SortGameInfoUseCase = mockk()
 
     private val useCase = GetMyAchievementsUseCase(
         fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
-        gameInfoRepository = gameInfoRepository
+        gameInfoRepository = gameInfoRepository,
+        sortGameInfoUseCase = sortGameInfoUseCase
     )
+
+    @Before
+    fun setUp() {
+        every { sortGameInfoUseCase(any()) } answers { firstArg() }
+    }
 
     @Test
     fun `SHOULD fetch from db WHEN data exists locally`() =
@@ -58,6 +67,11 @@ class GetMyAchievementsUseCaseTest {
                 GameInfo(1, "Game xyz", 50, "xyz"),
                 GameInfo(2, "Game abc", 100, "abc"),
                 GameInfo(3, "Game def", 50, "def")
+            )
+            val useCase = GetMyAchievementsUseCase(
+                fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
+                gameInfoRepository = gameInfoRepository,
+                sortGameInfoUseCase = SortGameInfoUseCase()
             )
 
             // Act

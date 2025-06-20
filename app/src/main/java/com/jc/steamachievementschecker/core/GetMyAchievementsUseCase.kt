@@ -2,7 +2,8 @@ package com.jc.steamachievementschecker.core
 
 class GetMyAchievementsUseCase(
     private val fetchAchievementsOnlineUseCase: FetchAchievementsOnlineUseCase,
-    private val gameInfoRepository: GameInfoRepository
+    private val gameInfoRepository: GameInfoRepository,
+    private val sortGameInfoUseCase: SortGameInfoUseCase
 ) {
 
     suspend operator fun invoke(): List<GameInfo> {
@@ -11,8 +12,6 @@ class GetMyAchievementsUseCase(
         } else {
             fetchAchievementsOnlineUseCase()
         }
-        return gameInfo.sortedWith(
-            compareByDescending<GameInfo> { it.achievementsPercentage }.thenBy { it.name }
-        )
+        return sortGameInfoUseCase(gameInfo)
     }
 }
