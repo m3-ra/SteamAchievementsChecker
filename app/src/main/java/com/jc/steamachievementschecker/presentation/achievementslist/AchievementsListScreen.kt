@@ -13,5 +13,8 @@ fun AchievementsListScreen(viewModel: AchievementsListViewModel = koinViewModel(
         viewModel.fetchMyAchievements()
     }
 
-    AchievementsListView(uiState)
+    AchievementsListView(
+        uiState = uiState,
+        onRefresh = { viewModel.forceRefreshMyAchievements() }
+    )
 }

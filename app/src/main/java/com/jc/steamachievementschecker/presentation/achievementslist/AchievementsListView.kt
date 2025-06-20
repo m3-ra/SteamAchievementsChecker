@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +20,10 @@ import com.jc.steamachievementschecker.presentation.achievementslist.Achievement
 import com.jc.steamachievementschecker.presentation.theme.SteamAchievementsCheckerTheme
 
 @Composable
-internal fun AchievementsListView(uiState: AchievementsListUiState) {
+internal fun AchievementsListView(
+    uiState: AchievementsListUiState,
+    onRefresh: () -> Unit
+) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -26,19 +31,33 @@ internal fun AchievementsListView(uiState: AchievementsListUiState) {
     ) {
         when (uiState) {
             Loading -> Loading()
-            is Success -> GamesList(games = uiState.games)
+            is Success -> GamesList(
+                games = uiState.games,
+                onRefresh = onRefresh,
+                isRefreshing = false
+            )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun GamesList(games: List<GameInfo>) {
-    LazyColumn {
-        items(games) { game ->
-            Row(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Text(text = "${game.name} - ${game.achievementsPercentage}%")
+internal fun GamesList(
+    games: List<GameInfo>,
+    onRefresh: () -> Unit,
+    isRefreshing: Boolean
+) {
+    PullToRefreshBox(
+        onRefresh = onRefresh,
+        isRefreshing = isRefreshing
+    ) {
+        LazyColumn {
+            items(games) { game ->
+                Row(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    Text(text = "${game.name} - ${game.achievementsPercentage}%")
+                }
             }
         }
     }
@@ -48,7 +67,10 @@ internal fun GamesList(games: List<GameInfo>) {
 @Composable
 private fun AchievementsListViewLoadingPreview() {
     SteamAchievementsCheckerTheme {
-        AchievementsListView(uiState = Loading)
+        AchievementsListView(
+            uiState = Loading,
+            onRefresh = {}
+        )
     }
 }
 
@@ -63,7 +85,8 @@ private fun AchievementsListViewGamesPreview() {
                     GameInfo(3, "Game def", 50),
                     GameInfo(1, "Game xyz", 50)
                 )
-            )
+            ),
+            onRefresh = {}
         )
     }
 }

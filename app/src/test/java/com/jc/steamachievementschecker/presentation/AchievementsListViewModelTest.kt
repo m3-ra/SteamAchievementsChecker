@@ -1,6 +1,7 @@
 package com.jc.steamachievementschecker.presentation
 
 import com.jc.steamachievementschecker.MainDispatcherRule
+import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
 import com.jc.steamachievementschecker.core.GameInfo
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
@@ -18,7 +19,12 @@ class AchievementsListViewModelTest {
     val mainDispatcherRule = MainDispatcherRule()
 
     private val getMyAchievementsUseCase: GetMyAchievementsUseCase = mockk()
-    private val viewModel = AchievementsListViewModel(getMyAchievementsUseCase)
+    private val forceRefreshMyAchievementsUseCase: ForceRefreshMyAchievementsUseCase = mockk()
+
+    private val viewModel = AchievementsListViewModel(
+        getMyAchievementsUseCase = getMyAchievementsUseCase,
+        forceRefreshMyAchievementsUseCase = forceRefreshMyAchievementsUseCase
+    )
 
     @Test
     fun `SHOULD be in loading WHEN screen starts`() {
@@ -37,6 +43,23 @@ class AchievementsListViewModelTest {
 
         // Act
         viewModel.fetchMyAchievements()
+
+        // Assert
+        assertEquals(Success(games), viewModel.uiState.value)
+    }
+
+    @Test
+    fun `SHOULD have success state WHEN games are force refreshed`() {
+        // Arrange
+        val games = listOf(
+            GameInfo(2, "Game abc", 100),
+            GameInfo(3, "Game def", 50),
+            GameInfo(1, "Game xyz", 50)
+        )
+        coEvery { forceRefreshMyAchievementsUseCase() } returns games
+
+        // Act
+        viewModel.forceRefreshMyAchievements()
 
         // Assert
         assertEquals(Success(games), viewModel.uiState.value)
