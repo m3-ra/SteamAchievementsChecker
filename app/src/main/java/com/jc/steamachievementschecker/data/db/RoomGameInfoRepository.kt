@@ -19,13 +19,15 @@ class RoomGameInfoRepository(
         GameInfo(
             id = id,
             name = name,
-            achievementsPercentage = achievementsPercentage
+            achievementsPercentage = achievementsPercentage,
+            displayName = displayName
         )
 
     private fun GameInfo.toGameInfoDbEntity() =
         GameInfoDbEntity(
             id = id,
             name = name,
-            achievementsPercentage = achievementsPercentage
+            achievementsPercentage = achievementsPercentage,
+            displayName = displayName
         )
 }

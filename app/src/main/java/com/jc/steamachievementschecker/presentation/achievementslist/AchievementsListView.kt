@@ -81,9 +81,9 @@ private fun AchievementsListViewGamesPreview() {
         AchievementsListView(
             uiState = Success(
                 listOf(
-                    GameInfo(2, "Game abc", 100),
-                    GameInfo(3, "Game def", 50),
-                    GameInfo(1, "Game xyz", 50)
+                    GameInfo(2, "Game abc", 100, "abc"),
+                    GameInfo(3, "Game def", 50, "def"),
+                    GameInfo(1, "Game xyz", 50, "xyz")
                 )
             ),
             onRefresh = {}

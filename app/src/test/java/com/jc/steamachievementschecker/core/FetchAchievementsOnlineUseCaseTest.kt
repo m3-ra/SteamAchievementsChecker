@@ -41,9 +41,9 @@ class FetchAchievementsOnlineUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfo(1, "Game xyz", 50),
-                GameInfo(2, "Game abc", 100),
-                GameInfo(3, "Game def", 50)
+                GameInfo(1, "Game xyz", 50, "Game xyz"),
+                GameInfo(2, "Game abc", 100, "Game abc"),
+                GameInfo(3, "Game def", 50, "Game def")
             )
             assertEquals(expected, result)
         }
@@ -60,7 +60,7 @@ class FetchAchievementsOnlineUseCaseTest {
             val result = useCase()
 
             // Assert
-            val expected = listOf(GameInfo(1, "Game xyz", 50))
+            val expected = listOf(GameInfo(1, "Game xyz", 50, "Game xyz"))
             coVerify { gameInfoRepository.saveGameInfo(expected) }
         }
 }

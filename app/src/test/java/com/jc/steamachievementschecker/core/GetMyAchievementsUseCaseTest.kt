@@ -55,9 +55,9 @@ class GetMyAchievementsUseCaseTest {
             coEvery {
                 gameInfoRepository.getAllGameInfo()
             } returns listOf(
-                GameInfo(1, "Game xyz", 50),
-                GameInfo(2, "Game abc", 100),
-                GameInfo(3, "Game def", 50)
+                GameInfo(1, "Game xyz", 50, "xyz"),
+                GameInfo(2, "Game abc", 100, "abc"),
+                GameInfo(3, "Game def", 50, "def")
             )
 
             // Act
@@ -65,9 +65,9 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfo(2, "Game abc", 100),
-                GameInfo(3, "Game def", 50),
-                GameInfo(1, "Game xyz", 50)
+                GameInfo(2, "Game abc", 100, "abc"),
+                GameInfo(3, "Game def", 50, "def"),
+                GameInfo(1, "Game xyz", 50, "xyz")
             )
             assertEquals(expected, result)
         }

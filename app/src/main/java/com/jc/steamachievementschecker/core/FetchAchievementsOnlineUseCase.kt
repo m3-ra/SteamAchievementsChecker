@@ -11,7 +11,12 @@ class FetchAchievementsOnlineUseCase(
             .map { game ->
                 val achievementsPercentage =
                     achievementsRepository.getAchievementsPercentageByGame(game.id)
-                GameInfo(game.id, game.name, achievementsPercentage)
+                GameInfo(
+                    id = game.id,
+                    name = game.name,
+                    achievementsPercentage = achievementsPercentage,
+                    displayName = game.name
+                )
             }.also {
                 gameInfoRepository.saveGameInfo(it)
             }
