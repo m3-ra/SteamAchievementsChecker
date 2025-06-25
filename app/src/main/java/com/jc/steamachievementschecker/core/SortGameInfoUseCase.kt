@@ -13,7 +13,8 @@ class SortGameInfoUseCase {
         }
 
         return gamesWithDisplayName.sortedWith(
-            compareByDescending<GameInfo> { it.achievementsPercentage }.thenBy { it.displayName }
+            compareByDescending<GameInfo> { it.achievementsPercentage }
+                .thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )
     }
 }
