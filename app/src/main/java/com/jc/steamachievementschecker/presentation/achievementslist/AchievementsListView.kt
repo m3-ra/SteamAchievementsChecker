@@ -169,7 +169,7 @@ private fun AchievementsListViewLoadingPreview() {
 private fun AchievementsListViewGamesPreview() {
     SteamAchievementsCheckerTheme {
         AchievementsListView(
-            uiState = Success(previewGames),
+            uiState = Success(previewGames, average = 66),
             onRefresh = {}
         )
     }

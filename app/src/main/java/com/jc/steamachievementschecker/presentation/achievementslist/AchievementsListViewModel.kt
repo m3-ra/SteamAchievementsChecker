@@ -22,7 +22,12 @@ class AchievementsListViewModel(
     fun fetchMyAchievements() {
         viewModelScope.launch {
             val result = getMyAchievementsUseCase()
-            _uiState.update { AchievementsListUiState.Success(result) }
+            _uiState.update {
+                AchievementsListUiState.Success(
+                    games = result,
+                    average = result.computeAverage()
+                )
+            }
         }
     }
 
@@ -30,14 +35,22 @@ class AchievementsListViewModel(
         viewModelScope.launch {
             _uiState.update { Loading }
             val result = forceRefreshMyAchievementsUseCase()
-            _uiState.update { AchievementsListUiState.Success(result) }
+            _uiState.update {
+                AchievementsListUiState.Success(
+                    games = result,
+                    average = result.computeAverage()
+                )
+            }
         }
     }
+
+    private fun List<GameInfoItem>.computeAverage() = sumOf { it.achievementsPercentage } / size
 
     sealed interface AchievementsListUiState {
         data object Loading : AchievementsListUiState
         data class Success(
-            val games: List<GameInfoItem>
+            val games: List<GameInfoItem>,
+            val average: Int
         ) : AchievementsListUiState
     }
 }

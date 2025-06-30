@@ -45,7 +45,7 @@ class AchievementsListViewModelTest {
         viewModel.fetchMyAchievements()
 
         // Assert
-        assertEquals(Success(games), viewModel.uiState.value)
+        assertEquals(Success(games, 66), viewModel.uiState.value)
     }
 
     @Test
@@ -62,6 +62,6 @@ class AchievementsListViewModelTest {
         viewModel.forceRefreshMyAchievements()
 
         // Assert
-        assertEquals(Success(games), viewModel.uiState.value)
+        assertEquals(Success(games, 66), viewModel.uiState.value)
     }
 }
