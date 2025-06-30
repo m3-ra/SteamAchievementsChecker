@@ -2,7 +2,7 @@ package com.jc.steamachievementschecker.presentation
 
 import com.jc.steamachievementschecker.MainDispatcherRule
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
-import com.jc.steamachievementschecker.core.GameInfo
+import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState.Loading
@@ -35,9 +35,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are fetched`() {
         // Arrange
         val games = listOf(
-            GameInfo(2, "Game abc", 100, "abc"),
-            GameInfo(3, "Game def", 50, "def"),
-            GameInfo(1, "Game xyz", 50, "xyz")
+            GameInfoItem(2, "Game abc", 100, "abc", "a"),
+            GameInfoItem(3, "Game def", 50, "def", "d"),
+            GameInfoItem(1, "Game xyz", 50, "xyz", "x")
         )
         coEvery { getMyAchievementsUseCase() } returns games
 
@@ -52,9 +52,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are force refreshed`() {
         // Arrange
         val games = listOf(
-            GameInfo(2, "Game abc", 100, "abc"),
-            GameInfo(3, "Game def", 50, "def"),
-            GameInfo(1, "Game xyz", 50, "xyz")
+            GameInfoItem(2, "Game abc", 100, "abc", "a"),
+            GameInfoItem(3, "Game def", 50, "def", "d"),
+            GameInfoItem(1, "Game xyz", 50, "xyz", "x")
         )
         coEvery { forceRefreshMyAchievementsUseCase() } returns games
 

@@ -3,7 +3,7 @@ package com.jc.steamachievementschecker.presentation.achievementslist
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
-import com.jc.steamachievementschecker.core.GameInfo
+import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState.Loading
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -37,7 +37,7 @@ class AchievementsListViewModel(
     sealed interface AchievementsListUiState {
         data object Loading : AchievementsListUiState
         data class Success(
-            val games: List<GameInfo>
+            val games: List<GameInfoItem>
         ) : AchievementsListUiState
     }
 }

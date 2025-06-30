@@ -32,7 +32,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.jc.steamachievementschecker.core.GameInfo
+import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState.Loading
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState.Success
@@ -102,7 +102,7 @@ internal fun AchievementsListView(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GamesList(
-    games: List<GameInfo>,
+    games: List<GameInfoItem>,
     displayType: GameInfoDisplay,
     onRefresh: () -> Unit,
     isRefreshing: Boolean
@@ -131,7 +131,7 @@ private fun GamesList(
 }
 
 @Composable
-private fun GameListItem(game: GameInfo) {
+private fun GameListItem(game: GameInfoItem) {
     Row(
         modifier = Modifier
             .fillMaxSize()
@@ -143,7 +143,7 @@ private fun GameListItem(game: GameInfo) {
 }
 
 @Composable
-private fun GameGridItem(game: GameInfo) {
+private fun GameGridItem(game: GameInfoItem) {
     // TODO lots to improve here
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
@@ -169,13 +169,7 @@ private fun AchievementsListViewLoadingPreview() {
 private fun AchievementsListViewGamesPreview() {
     SteamAchievementsCheckerTheme {
         AchievementsListView(
-            uiState = Success(
-                listOf(
-                    GameInfo(2, "Game abc", 100, "abc"),
-                    GameInfo(3, "Game def", 50, "def"),
-                    GameInfo(1, "Game xyz", 50, "xyz")
-                )
-            ),
+            uiState = Success(previewGames),
             onRefresh = {}
         )
     }
@@ -186,11 +180,7 @@ private fun AchievementsListViewGamesPreview() {
 private fun GamesListPreview() {
     SteamAchievementsCheckerTheme {
         GamesList(
-            games = listOf(
-                GameInfo(2, "Game abc", 100, "abc"),
-                GameInfo(3, "Game def", 50, "def"),
-                GameInfo(1, "Game xyz", 50, "xyz")
-            ),
+            games = previewGames,
             displayType = LIST,
             onRefresh = {},
             isRefreshing = false
@@ -203,11 +193,7 @@ private fun GamesListPreview() {
 private fun GamesGridPreview() {
     SteamAchievementsCheckerTheme {
         GamesList(
-            games = listOf(
-                GameInfo(2, "Game abc", 100, "abc"),
-                GameInfo(3, "Game def", 50, "def"),
-                GameInfo(1, "Game xyz", 50, "xyz")
-            ),
+            games = previewGames,
             displayType = GRID,
             onRefresh = {},
             isRefreshing = false
@@ -216,3 +202,9 @@ private fun GamesGridPreview() {
 }
 
 private enum class GameInfoDisplay { LIST, GRID }
+
+private val previewGames: List<GameInfoItem> = listOf(
+    GameInfoItem(2, "Game abc", 100, displayName = "abc", "a"),
+    GameInfoItem(3, "Game def", 50, displayName = "def", "d"),
+    GameInfoItem(1, "Game xyz", 50, displayName = "xyz", "x")
+)

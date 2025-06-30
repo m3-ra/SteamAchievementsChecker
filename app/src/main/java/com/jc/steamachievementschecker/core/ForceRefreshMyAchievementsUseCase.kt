@@ -5,7 +5,7 @@ class ForceRefreshMyAchievementsUseCase(
     private val sortGameInfoUseCase: SortGameInfoUseCase
 ) {
 
-    suspend operator fun invoke(): List<GameInfo> =
+    suspend operator fun invoke(): List<GameInfoItem> =
         sortGameInfoUseCase(
             fetchAchievementsOnlineUseCase()
         )

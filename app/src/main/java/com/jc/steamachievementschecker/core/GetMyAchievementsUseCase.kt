@@ -6,7 +6,7 @@ class GetMyAchievementsUseCase(
     private val sortGameInfoUseCase: SortGameInfoUseCase
 ) {
 
-    suspend operator fun invoke(): List<GameInfo> {
+    suspend operator fun invoke(): List<GameInfoItem> {
         val gameInfo = if (gameInfoRepository.hasOfflineDataAvailable()) {
             gameInfoRepository.getAllGameInfo()
         } else {

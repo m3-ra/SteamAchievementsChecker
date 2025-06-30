@@ -14,8 +14,7 @@ class FetchAchievementsOnlineUseCase(
                 GameInfo(
                     id = game.id,
                     name = game.name,
-                    achievementsPercentage = achievementsPercentage,
-                    displayName = game.name
+                    achievementsPercentage = achievementsPercentage
                 )
             }.also {
                 gameInfoRepository.saveGameInfo(it)

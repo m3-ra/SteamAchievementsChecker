@@ -2,18 +2,20 @@ package com.jc.steamachievementschecker.core
 
 class SortGameInfoUseCase {
 
-    operator fun invoke(games: List<GameInfo>): List<GameInfo> {
+    // TODO find a better way to store those "naming" rules in case there are more of them
+    operator fun invoke(games: List<GameInfo>): List<GameInfoItem> {
         val gamesWithDisplayName = games.map { gameInfo ->
-            // TODO find a better way to store those "naming" rules in case there are more of them
-            if (gameInfo.name.startsWith("The ")) {
-                gameInfo.copy(displayName = gameInfo.name.removePrefix("The "))
-            } else {
-                gameInfo
-            }
+            GameInfoItem(
+                id = gameInfo.id,
+                name = gameInfo.name,
+                achievementsPercentage = gameInfo.achievementsPercentage,
+                displayName = gameInfo.name.removePrefix("The "),
+                shortName = ""
+            )
         }
 
         return gamesWithDisplayName.sortedWith(
-            compareByDescending<GameInfo> { it.achievementsPercentage }
+            compareByDescending<GameInfoItem> { it.achievementsPercentage }
                 .thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )
     }
