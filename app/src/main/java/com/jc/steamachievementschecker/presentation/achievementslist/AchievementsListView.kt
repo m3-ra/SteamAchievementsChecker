@@ -148,7 +148,7 @@ private fun GameGridItem(game: GameInfoItem) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = game.name)
+        Text(text = game.shortName)
         Text(text = "${game.achievementsPercentage}%")
     }
 }

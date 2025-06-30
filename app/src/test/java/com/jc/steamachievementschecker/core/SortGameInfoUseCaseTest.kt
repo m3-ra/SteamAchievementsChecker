@@ -23,11 +23,11 @@ class SortGameInfoUseCaseTest {
 
         // Assert
         val expected = listOf(
-            GameInfoItem(2, "Game abc", 100, "Game abc", ""),
-            GameInfoItem(3, "Game def", 50, "Game def", ""),
-            GameInfoItem(1, "Game xyz", 50, "Game xyz", ""),
-            GameInfoItem(4, "The Game", 25, "Game", ""),
-            GameInfoItem(5, "Lll Game", 25, "Lll Game", "")
+            GameInfoItem(2, "Game abc", 100, "Game abc", "Ga"),
+            GameInfoItem(3, "Game def", 50, "Game def", "Gd"),
+            GameInfoItem(1, "Game xyz", 50, "Game xyz", "Gx"),
+            GameInfoItem(4, "The Game", 25, "Game", "TG"),
+            GameInfoItem(5, "Lll Game", 25, "Lll Game", "LG")
         )
         assertEquals(expected, result)
     }
@@ -47,10 +47,10 @@ class SortGameInfoUseCaseTest {
 
         // Assert
         val expected = listOf(
-            GameInfoItem(3, "Ta", 100, "Ta", ""),
-            GameInfoItem(4, "TH", 100, "TH", ""),
-            GameInfoItem(2, "Ti", 100, "Ti", ""),
-            GameInfoItem(1, "TU", 100, "TU", "")
+            GameInfoItem(3, "Ta", 100, "Ta", "T"),
+            GameInfoItem(4, "TH", 100, "TH", "T"),
+            GameInfoItem(2, "Ti", 100, "Ti", "T"),
+            GameInfoItem(1, "TU", 100, "TU", "T")
         )
         assertEquals(expected, result)
     }

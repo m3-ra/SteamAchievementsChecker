@@ -10,7 +10,7 @@ class SortGameInfoUseCase {
                 name = gameInfo.name,
                 achievementsPercentage = gameInfo.achievementsPercentage,
                 displayName = gameInfo.name.removePrefix("The "),
-                shortName = ""
+                shortName = gameInfo.name.trim().computeShortName()
             )
         }
 
@@ -19,4 +19,9 @@ class SortGameInfoUseCase {
                 .thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )
     }
+
+    private fun String.computeShortName(): String =
+        split(" ")
+            .map { it.first() }
+            .joinToString("")
 }

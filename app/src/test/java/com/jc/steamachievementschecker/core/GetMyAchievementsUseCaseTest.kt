@@ -79,9 +79,9 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfoItem(2, "Game abc", 100, "Game abc", ""),
-                GameInfoItem(3, "Game def", 50, "Game def", ""),
-                GameInfoItem(1, "Game xyz", 50, "Game xyz", "")
+                GameInfoItem(2, "Game abc", 100, "Game abc", "Ga"),
+                GameInfoItem(3, "Game def", 50, "Game def", "Gd"),
+                GameInfoItem(1, "Game xyz", 50, "Game xyz", "Gx")
             )
             assertEquals(expected, result)
         }
