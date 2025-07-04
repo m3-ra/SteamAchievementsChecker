@@ -47,10 +47,10 @@ class SortGameInfoUseCaseTest {
 
         // Assert
         val expected = listOf(
-            GameInfoItem(3, "Ta", 100, "Ta", "T"),
-            GameInfoItem(4, "TH", 100, "TH", "T"),
-            GameInfoItem(2, "Ti", 100, "Ti", "T"),
-            GameInfoItem(1, "TU", 100, "TU", "T")
+            GameInfoItem(3, "Ta", 100, "Ta", "Ta"),
+            GameInfoItem(4, "TH", 100, "TH", "TH"),
+            GameInfoItem(2, "Ti", 100, "Ti", "Ti"),
+            GameInfoItem(1, "TU", 100, "TU", "TU")
         )
         assertEquals(expected, result)
     }

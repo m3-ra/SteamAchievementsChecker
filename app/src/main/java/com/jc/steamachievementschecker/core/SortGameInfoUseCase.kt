@@ -1,5 +1,7 @@
 package com.jc.steamachievementschecker.core
 
+private const val SHORT_DISPLAY_MAX_LENGTH = 3
+
 class SortGameInfoUseCase {
 
     // TODO find a better way to store those "naming" rules in case there are more of them
@@ -20,8 +22,17 @@ class SortGameInfoUseCase {
         )
     }
 
-    private fun String.computeShortName(): String =
-        split(" ")
-            .map { it.first() }
-            .joinToString("")
+    private fun String.computeShortName(): String {
+        val split = this.split(" ")
+
+        return if (split.size > 1) {
+            split
+                .map { it.first() }
+                .filter { it.isLetterOrDigit() }
+                .joinToString("")
+                .take(SHORT_DISPLAY_MAX_LENGTH)
+        } else {
+            this.take(SHORT_DISPLAY_MAX_LENGTH)
+        }
+    }
 }

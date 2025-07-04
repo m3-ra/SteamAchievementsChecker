@@ -3,6 +3,7 @@ package com.jc.steamachievementschecker.presentation.achievementslist
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -146,6 +147,7 @@ private fun GamesList(
                 LazyVerticalGrid(columns = GridCells.Fixed(9)) {
                     items(games.size) { index ->
                         GameGridItem(games[index])
+                        Spacer(modifier = Modifier.padding(24.dp))
                     }
                 }
             }
@@ -167,12 +169,18 @@ private fun GameListItem(game: GameInfoItem) {
 
 @Composable
 private fun GameGridItem(game: GameInfoItem) {
-    // TODO lots to improve here
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.padding(horizontal = 2.dp)
     ) {
-        Text(text = game.shortName)
-        Text(text = "${game.achievementsPercentage}%")
+        Text(
+            text = game.shortName,
+            style = MaterialTheme.typography.labelSmall
+        )
+        Text(
+            text = "${game.achievementsPercentage}%",
+            style = MaterialTheme.typography.bodyMedium
+        )
     }
 }
 
