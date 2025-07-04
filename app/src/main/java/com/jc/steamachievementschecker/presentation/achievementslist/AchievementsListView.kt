@@ -16,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -54,11 +55,7 @@ internal fun AchievementsListView(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(
-                        "Games achievements %",
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    AchievementsTitle(uiState)
                 },
                 actions = {
                     IconButton(
@@ -95,6 +92,32 @@ internal fun AchievementsListView(
                     isRefreshing = false
                 )
             }
+        }
+    }
+}
+
+@Composable
+private fun AchievementsTitle(uiState: AchievementsListUiState) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        val avg = when (uiState) {
+            Loading -> null
+            is Success -> uiState.average
+        }
+        Text(
+            "Games achievements %",
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+        if (avg != null) {
+            Text(
+                text = "(average = $avg)",
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.labelSmall
+            )
         }
     }
 }
