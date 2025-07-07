@@ -5,7 +5,8 @@ import org.junit.Test
 
 class SortGameInfoUseCaseTest {
 
-    val useCase = SortGameInfoUseCase()
+    private val computeShortNameUseCase = ComputeShortNameUseCase()
+    val useCase = SortGameInfoUseCase(computeShortNameUseCase)
 
     @Test
     fun `SHOULD sort games WHEN use case is called`() {

@@ -1,8 +1,8 @@
 package com.jc.steamachievementschecker.core
 
-private const val SHORT_DISPLAY_MAX_LENGTH = 3
-
-class SortGameInfoUseCase {
+class SortGameInfoUseCase(
+    private val computeShortNameUseCase: ComputeShortNameUseCase
+) {
 
     // TODO find a better way to store those "naming" rules in case there are more of them
     operator fun invoke(games: List<GameInfo>): List<GameInfoItem> {
@@ -12,7 +12,7 @@ class SortGameInfoUseCase {
                 name = gameInfo.name,
                 achievementsPercentage = gameInfo.achievementsPercentage,
                 displayName = gameInfo.name.removePrefix("The "),
-                shortName = gameInfo.name.trim().computeShortName()
+                shortName = computeShortNameUseCase(gameInfo.name.trim())
             )
         }
 
@@ -20,19 +20,5 @@ class SortGameInfoUseCase {
             compareByDescending<GameInfoItem> { it.achievementsPercentage }
                 .thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )
-    }
-
-    private fun String.computeShortName(): String {
-        val split = this.split(" ")
-
-        return if (split.size > 1) {
-            split
-                .map { it.first() }
-                .filter { it.isLetterOrDigit() }
-                .joinToString("")
-                .take(SHORT_DISPLAY_MAX_LENGTH)
-        } else {
-            this.take(SHORT_DISPLAY_MAX_LENGTH)
-        }
     }
 }

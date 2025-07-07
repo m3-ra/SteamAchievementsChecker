@@ -71,7 +71,7 @@ class GetMyAchievementsUseCaseTest {
             val useCase = GetMyAchievementsUseCase(
                 fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
                 gameInfoRepository = gameInfoRepository,
-                sortGameInfoUseCase = SortGameInfoUseCase()
+                sortGameInfoUseCase = SortGameInfoUseCase(ComputeShortNameUseCase())
             )
 
             // Act

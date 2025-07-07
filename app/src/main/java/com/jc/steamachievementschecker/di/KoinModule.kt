@@ -3,6 +3,7 @@ package com.jc.steamachievementschecker.di
 import androidx.room.Room
 import com.jc.steamachievementschecker.BuildConfig
 import com.jc.steamachievementschecker.core.AchievementsRepository
+import com.jc.steamachievementschecker.core.ComputeShortNameUseCase
 import com.jc.steamachievementschecker.core.FetchAchievementsOnlineUseCase
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
 import com.jc.steamachievementschecker.core.GameInfoRepository
@@ -70,6 +71,7 @@ private val coreModule = module {
     singleOf(::ForceRefreshMyAchievementsUseCase)
     singleOf(::FetchAchievementsOnlineUseCase)
     singleOf(::SortGameInfoUseCase)
+    singleOf(::ComputeShortNameUseCase)
 }
 
 private val daoModule = module {
