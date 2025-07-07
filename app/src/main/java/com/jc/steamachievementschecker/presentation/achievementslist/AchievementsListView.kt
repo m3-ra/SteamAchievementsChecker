@@ -32,7 +32,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState
@@ -41,6 +40,7 @@ import com.jc.steamachievementschecker.presentation.achievementslist.Achievement
 import com.jc.steamachievementschecker.presentation.achievementslist.GameInfoDisplay.GRID
 import com.jc.steamachievementschecker.presentation.achievementslist.GameInfoDisplay.LIST
 import com.jc.steamachievementschecker.presentation.theme.SteamAchievementsCheckerTheme
+import com.jc.steamachievementschecker.presentation.theme.ThemePreviews
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -188,7 +188,7 @@ private fun GameGridItem(game: GameInfoItem) {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun AchievementsListViewLoadingPreview() {
     SteamAchievementsCheckerTheme {
@@ -199,7 +199,7 @@ private fun AchievementsListViewLoadingPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun AchievementsListViewGamesPreview() {
     SteamAchievementsCheckerTheme {
@@ -210,7 +210,7 @@ private fun AchievementsListViewGamesPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun GamesListPreview() {
     SteamAchievementsCheckerTheme {
@@ -223,7 +223,7 @@ private fun GamesListPreview() {
     }
 }
 
-@Preview(showBackground = true)
+@ThemePreviews
 @Composable
 private fun GamesGridPreview() {
     SteamAchievementsCheckerTheme {
