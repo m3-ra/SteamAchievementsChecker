@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.jc.steamachievementschecker"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.jc.steamachievementschecker"
         minSdk = 32
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -68,7 +68,6 @@ dependencies {
     testImplementation(libs.coroutinesTest)
 
     androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
 
