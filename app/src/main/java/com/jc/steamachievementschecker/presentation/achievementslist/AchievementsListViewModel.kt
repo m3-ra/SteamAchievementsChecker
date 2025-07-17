@@ -25,7 +25,8 @@ class AchievementsListViewModel(
             _uiState.update {
                 AchievementsListUiState.Success(
                     games = result,
-                    average = result.computeAverage()
+                    average = result.computeAverage(),
+                    maxed = result.computeMaxed()
                 )
             }
         }
@@ -38,7 +39,8 @@ class AchievementsListViewModel(
             _uiState.update {
                 AchievementsListUiState.Success(
                     games = result,
-                    average = result.computeAverage()
+                    average = result.computeAverage(),
+                    maxed = result.computeMaxed()
                 )
             }
         }
@@ -46,11 +48,14 @@ class AchievementsListViewModel(
 
     private fun List<GameInfoItem>.computeAverage() = sumOf { it.achievementsPercentage } / size
 
+    private fun List<GameInfoItem>.computeMaxed() = filter { it.achievementsPercentage == 100 }.size
+
     sealed interface AchievementsListUiState {
         data object Loading : AchievementsListUiState
         data class Success(
             val games: List<GameInfoItem>,
-            val average: Int
+            val average: Int,
+            val maxed: Int
         ) : AchievementsListUiState
     }
 }

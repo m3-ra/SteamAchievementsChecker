@@ -107,14 +107,18 @@ private fun AchievementsTitle(uiState: AchievementsListUiState) {
             Loading -> null
             is Success -> uiState.average
         }
+        val maxed = when (uiState) {
+            Loading -> null
+            is Success -> uiState.maxed
+        }
         Text(
             "Games achievements %",
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
         )
-        if (avg != null) {
+        if (avg != null && maxed != null) {
             Text(
-                text = "(average = $avg)",
+                text = "(average = $avg%, maxed = $maxed)",
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.labelSmall
@@ -200,7 +204,7 @@ private fun AchievementsListViewLoadingPreview() {
 private fun AchievementsListViewGamesPreview() {
     SteamAchievementsCheckerTheme {
         AchievementsListView(
-            uiState = Success(previewGames, average = 66),
+            uiState = Success(previewGames, average = 66, maxed = 5),
             onRefresh = {}
         )
     }
