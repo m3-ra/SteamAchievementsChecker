@@ -1,6 +1,5 @@
 *.iml
 .gradle
-/local.properties
 **/*.idea
 .DS_Store
 /build
@@ -8,4 +7,4 @@
 .externalNativeBuild
 .cxx
 local.properties
-/app/src/main/java/com/jc/steamachievementschecker/data/network/SteamSecrets.kt
+!local.properties.template

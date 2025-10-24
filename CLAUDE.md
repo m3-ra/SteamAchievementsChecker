@@ -6,6 +6,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 An Android app that tracks Steam game achievements using the Steam API. Displays achievement percentages per game, calculates average completion across all games, and counts fully completed ("maxed") games.
 
+## Setup
+
+### Initial Configuration
+1. Copy `local.properties.template` to `local.properties` (if not already created by Android Studio)
+2. Add your Steam credentials to `local.properties`:
+   ```properties
+   steam.api.key=YOUR_API_KEY
+   steam.user.id=YOUR_STEAM_ID
+   ```
+3. Get your Steam API key from: https://steamcommunity.com/dev/apikey
+4. Find your Steam ID at: https://steamidfinder.com/
+
+The `local.properties` file is git-ignored and will never be committed.
+
 ## Common Commands
 
 ### Building & Running
@@ -59,7 +73,7 @@ The project follows **Clean Architecture** with clear separation of concerns:
 - `data/network/`: Steam API integration using Retrofit
   - `SteamApi`: API endpoints for games and achievements
   - `SteamAchievementsRepository`: Implements `AchievementsRepository`
-  - `SteamSecrets`: Contains API_KEY and USER_ID (hardcoded for this project)
+  - `SteamSecrets`: Provides API_KEY and USER_ID from BuildConfig (loaded from local.properties)
 - `data/db/`: Room database for offline caching
   - `AppDatabase`: Single database with GameInfoDao
   - `RoomGameInfoRepository`: Implements `GameInfoRepository`
@@ -118,4 +132,9 @@ The app fetches data from two endpoints:
 1. `IPlayerService/GetOwnedGames`: List of user's games
 2. `ISteamUserStats/GetPlayerAchievements`: Achievement stats per game
 
-API credentials in `SteamSecrets.kt` are hardcoded (not using BuildConfig or environment variables).
+### Secrets Management
+API credentials are stored securely using BuildConfig:
+- Credentials defined in `local.properties` (git-ignored)
+- Build system reads properties and generates BuildConfig fields
+- `SteamSecrets.kt` exposes credentials from BuildConfig with validation
+- `init` block ensures credentials are configured before use

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -18,6 +20,24 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // Load secrets from local.properties
+        val properties = Properties()
+        val localPropertiesFile = rootProject.file("local.properties")
+        if (localPropertiesFile.exists()) {
+            properties.load(localPropertiesFile.inputStream())
+        }
+
+        buildConfigField(
+            "String",
+            "STEAM_API_KEY",
+            "\"${properties.getProperty("steam.api.key", "")}\""
+        )
+        buildConfigField(
+            "String",
+            "STEAM_USER_ID",
+            "\"${properties.getProperty("steam.user.id", "")}\""
+        )
     }
 
     buildTypes {
