@@ -2,10 +2,12 @@ package com.jc.steamachievementschecker.data.network
 
 import com.jc.steamachievementschecker.core.Game
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import java.io.IOException
 
 class SteamAchievementsRepositoryTest {
 
@@ -76,5 +78,90 @@ class SteamAchievementsRepositoryTest {
 
             // Assert
             assertEquals(50, result)
+        }
+
+    @Test
+    fun `SHOULD return 0 WHEN game has no achievements`() =
+        runTest {
+            // Arrange
+            val response = PlayerStatsResponseApiEntity(
+                playerstats = PlayerStatsApiEntity(
+                    steamID = "76561198042733267",
+                    gameName = "Game With No Achievements",
+                    success = true,
+                    achievements = emptyList()
+                )
+            )
+
+            coEvery { steamApi.getAchievementsByGame(any()) } returns response
+
+            // Act
+            val result = repository.getAchievementsPercentageByGame(4190)
+
+            // Assert
+            assertEquals(0, result)
+        }
+
+    @Test
+    fun `SHOULD retry and eventually succeed WHEN IOException occurs then succeeds`() =
+        runTest {
+            // Arrange
+            val successResponse = PlayerStatsResponseApiEntity(
+                playerstats = PlayerStatsApiEntity(
+                    steamID = "76561198042733267",
+                    gameName = "",
+                    success = true,
+                    achievements = listOf(
+                        AchievementApiEntity(
+                            apiname = "Achievement 1",
+                            achieved = 1,
+                            unlocktime = 1560
+                        )
+                    )
+                )
+            )
+
+            coEvery {
+                steamApi.getAchievementsByGame(any())
+            } throws IOException("Network error") andThen successResponse
+
+            // Act
+            val result = repository.getAchievementsPercentageByGame(4190)
+
+            // Assert
+            assertEquals(100, result)
+            coVerify(exactly = 2) { steamApi.getAchievementsByGame(4190) }
+        }
+
+    @Test
+    fun `SHOULD return 0 WHEN IOException persists after max retries`() =
+        runTest {
+            // Arrange
+            coEvery {
+                steamApi.getAchievementsByGame(any())
+            } throws IOException("Network error")
+
+            // Act
+            val result = repository.getAchievementsPercentageByGame(4190)
+
+            // Assert
+            assertEquals(0, result)
+            coVerify(exactly = 4) { steamApi.getAchievementsByGame(4190) }
+        }
+
+    @Test
+    fun `SHOULD return 0 WHEN unexpected exception occurs`() =
+        runTest {
+            // Arrange
+            coEvery {
+                steamApi.getAchievementsByGame(any())
+            } throws RuntimeException("Unexpected error")
+
+            // Act
+            val result = repository.getAchievementsPercentageByGame(4190)
+
+            // Assert
+            assertEquals(0, result)
+            coVerify(exactly = 1) { steamApi.getAchievementsByGame(4190) }
         }
 }
