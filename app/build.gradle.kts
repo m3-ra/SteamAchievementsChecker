@@ -79,7 +79,7 @@ dependencies {
     implementation(libs.koinCompose)
     implementation(libs.roomRuntime)
     implementation(libs.roomKtx)
-    implementation(libs.koinCompose)
+    implementation(libs.timber)
 
     ksp(libs.roomCompiler)
 

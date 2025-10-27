@@ -15,6 +15,7 @@ coroutinesTest = "1.10.2"
 room = "2.7.2"
 ksp = "2.2.0-2.0.2"
 ktLint = "5.1.1"
+timber = "5.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -40,6 +41,7 @@ coroutinesTest = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-t
 roomRuntime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 roomKtx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 roomCompiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
