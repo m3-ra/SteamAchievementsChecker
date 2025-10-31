@@ -17,7 +17,9 @@ class SortGameInfoUseCase(
         }
 
         return gamesWithDisplayName.sortedWith(
-            compareByDescending<GameInfoItem> {
+            compareBy<GameInfoItem> {
+                it.achievementsResult is AchievementsResult.NoAchievements
+            }.thenByDescending {
                 when (val result = it.achievementsResult) {
                     is AchievementsResult.HasAchievements -> result.percentage
                     is AchievementsResult.NoAchievements -> 0
