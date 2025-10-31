@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState.Loading
@@ -166,7 +167,11 @@ private fun GameListItem(game: GameInfoItem) {
             .fillMaxSize()
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
-        Text(text = "${game.name} - ${game.achievementsPercentage}%")
+        val achievementText = when (val result = game.achievementsResult) {
+            is AchievementsResult.HasAchievements -> "${result.percentage}%"
+            is AchievementsResult.NoAchievements -> "No achievements"
+        }
+        Text(text = "${game.name} - $achievementText")
     }
     HorizontalDivider()
 }
@@ -181,8 +186,12 @@ private fun GameGridItem(game: GameInfoItem) {
             text = game.shortName,
             style = MaterialTheme.typography.labelSmall
         )
+        val achievementText = when (val result = game.achievementsResult) {
+            is AchievementsResult.HasAchievements -> "${result.percentage}%"
+            is AchievementsResult.NoAchievements -> "N/A"
+        }
         Text(
-            text = "${game.achievementsPercentage}%",
+            text = achievementText,
             style = MaterialTheme.typography.bodyMedium
         )
     }
@@ -239,7 +248,7 @@ private fun GamesGridPreview() {
 private enum class GameInfoDisplay { LIST, GRID }
 
 private val previewGames: List<GameInfoItem> = listOf(
-    GameInfoItem(2, "Game abc", 100, displayName = "abc", "a"),
-    GameInfoItem(3, "Game def", 50, displayName = "def", "d"),
-    GameInfoItem(1, "Game xyz", 50, displayName = "xyz", "x")
+    GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), displayName = "abc", "a"),
+    GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), displayName = "def", "d"),
+    GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), displayName = "xyz", "x")
 )

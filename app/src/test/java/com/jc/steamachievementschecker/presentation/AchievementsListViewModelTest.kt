@@ -1,6 +1,7 @@
 package com.jc.steamachievementschecker.presentation
 
 import com.jc.steamachievementschecker.MainDispatcherRule
+import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
 import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
@@ -35,9 +36,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are fetched`() {
         // Arrange
         val games = listOf(
-            GameInfoItem(2, "Game abc", 100, "abc", "a"),
-            GameInfoItem(3, "Game def", 50, "def", "d"),
-            GameInfoItem(1, "Game xyz", 50, "xyz", "x")
+            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "abc", "a"),
+            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "def", "d"),
+            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "xyz", "x")
         )
         coEvery { getMyAchievementsUseCase() } returns games
 
@@ -52,9 +53,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are force refreshed`() {
         // Arrange
         val games = listOf(
-            GameInfoItem(2, "Game abc", 100, "abc", "a"),
-            GameInfoItem(3, "Game def", 50, "def", "d"),
-            GameInfoItem(1, "Game xyz", 50, "xyz", "x")
+            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "abc", "a"),
+            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "def", "d"),
+            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "xyz", "x")
         )
         coEvery { forceRefreshMyAchievementsUseCase() } returns games
 
@@ -63,5 +64,24 @@ class AchievementsListViewModelTest {
 
         // Assert
         assertEquals(Success(games, 66, maxed = 1), viewModel.uiState.value)
+    }
+
+    @Test
+    fun `SHOULD compute correct stats WHEN some games have no achievements`() {
+        // Arrange
+        val games = listOf(
+            GameInfoItem(1, "Game with achievements", AchievementsResult.HasAchievements(100), "abc", "a"),
+            GameInfoItem(2, "Game without achievements", AchievementsResult.NoAchievements, "def", "d"),
+            GameInfoItem(3, "Game half done", AchievementsResult.HasAchievements(50), "xyz", "x"),
+            GameInfoItem(4, "Another no achievements", AchievementsResult.NoAchievements, "ghi", "g"),
+            GameInfoItem(5, "Game not started", AchievementsResult.HasAchievements(0), "jkl", "j")
+        )
+        coEvery { getMyAchievementsUseCase() } returns games
+
+        // Act
+        viewModel.fetchMyAchievements()
+
+        // Assert
+        assertEquals(Success(games, 30, maxed = 1), viewModel.uiState.value)
     }
 }

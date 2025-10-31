@@ -64,9 +64,9 @@ class GetMyAchievementsUseCaseTest {
             coEvery {
                 gameInfoRepository.getAllGameInfo()
             } returns listOf(
-                GameInfo(1, "Game xyz", 50),
-                GameInfo(2, "Game abc", 100),
-                GameInfo(3, "Game def", 50)
+                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50)),
+                GameInfo(2, "Game abc", AchievementsResult.HasAchievements(100)),
+                GameInfo(3, "Game def", AchievementsResult.HasAchievements(50))
             )
             val useCase = GetMyAchievementsUseCase(
                 fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
@@ -79,9 +79,43 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfoItem(2, "Game abc", 100, "Game abc", "Ga"),
-                GameInfoItem(3, "Game def", 50, "Game def", "Gd"),
-                GameInfoItem(1, "Game xyz", 50, "Game xyz", "Gx")
+                GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "Game abc", "Ga"),
+                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "Game def", "Gd"),
+                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "Game xyz", "Gx")
+            )
+            assertEquals(expected, result)
+        }
+
+    @Test
+    fun `SHOULD sort mixed achievements WHEN some games have no achievements`() =
+        runTest {
+            // Arrange
+            coEvery { gameInfoRepository.hasOfflineDataAvailable() } returns true
+            coEvery {
+                gameInfoRepository.getAllGameInfo()
+            } returns listOf(
+                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50)),
+                GameInfo(2, "Game abc", AchievementsResult.NoAchievements),
+                GameInfo(3, "Game def", AchievementsResult.HasAchievements(100)),
+                GameInfo(4, "Another Game", AchievementsResult.NoAchievements),
+                GameInfo(5, "The Game", AchievementsResult.HasAchievements(0))
+            )
+            val useCase = GetMyAchievementsUseCase(
+                fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
+                gameInfoRepository = gameInfoRepository,
+                sortGameInfoUseCase = SortGameInfoUseCase(ComputeShortNameUseCase())
+            )
+
+            // Act
+            val result = useCase()
+
+            // Assert
+            val expected = listOf(
+                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(100), "Game def", "Gd"),
+                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "Game xyz", "Gx"),
+                GameInfoItem(4, "Another Game", AchievementsResult.NoAchievements, "Another Game", "AG"),
+                GameInfoItem(5, "The Game", AchievementsResult.HasAchievements(0), "Game", "TG"),
+                GameInfoItem(2, "Game abc", AchievementsResult.NoAchievements, "Game abc", "Ga")
             )
             assertEquals(expected, result)
         }

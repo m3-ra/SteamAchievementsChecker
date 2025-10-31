@@ -7,5 +7,6 @@ import androidx.room.PrimaryKey
 data class GameInfoDbEntity(
     @PrimaryKey val id: Int,
     val name: String,
-    val achievementsPercentage: Int
+    val achievementsPercentage: Int,
+    val hasNoAchievements: Boolean = false
 )

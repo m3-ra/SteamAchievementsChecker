@@ -4,5 +4,5 @@ interface AchievementsRepository {
 
     suspend fun getMyGames(): List<Game>
 
-    suspend fun getAchievementsPercentageByGame(appId: Int): Int
+    suspend fun getAchievementsPercentageByGame(appId: Int): AchievementsResult
 }

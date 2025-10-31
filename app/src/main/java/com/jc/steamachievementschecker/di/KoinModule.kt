@@ -12,6 +12,7 @@ import com.jc.steamachievementschecker.core.SortGameInfoUseCase
 import com.jc.steamachievementschecker.data.db.AppDatabase
 import com.jc.steamachievementschecker.data.db.GameInfoDao
 import com.jc.steamachievementschecker.data.db.RoomGameInfoRepository
+import com.jc.steamachievementschecker.data.network.PlayerStatsApiEntityAdapterFactory
 import com.jc.steamachievementschecker.data.network.SteamAchievementsRepository
 import com.jc.steamachievementschecker.data.network.SteamApi
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel
@@ -31,11 +32,16 @@ private const val DATABASE_NAME = "app-database"
 
 private val apiModule = module {
     single<Retrofit> {
+        val gson = com.google.gson
+            .GsonBuilder()
+            .registerTypeAdapterFactory(PlayerStatsApiEntityAdapterFactory())
+            .create()
+
         Retrofit
             .Builder()
             .client(getOkHttpBuilder())
             .baseUrl("https://api.steampowered.com/")
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
     single { getSteamApi(get()) }

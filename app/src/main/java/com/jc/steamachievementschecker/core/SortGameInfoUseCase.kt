@@ -10,15 +10,19 @@ class SortGameInfoUseCase(
             GameInfoItem(
                 id = gameInfo.id,
                 name = gameInfo.name,
-                achievementsPercentage = gameInfo.achievementsPercentage,
+                achievementsResult = gameInfo.achievementsResult,
                 displayName = gameInfo.name.removePrefix("The "),
                 shortName = computeShortNameUseCase(gameInfo.name.trim())
             )
         }
 
         return gamesWithDisplayName.sortedWith(
-            compareByDescending<GameInfoItem> { it.achievementsPercentage }
-                .thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
+            compareByDescending<GameInfoItem> {
+                when (val result = it.achievementsResult) {
+                    is AchievementsResult.HasAchievements -> result.percentage
+                    is AchievementsResult.NoAchievements -> 0
+                }
+            }.thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )
     }
 }

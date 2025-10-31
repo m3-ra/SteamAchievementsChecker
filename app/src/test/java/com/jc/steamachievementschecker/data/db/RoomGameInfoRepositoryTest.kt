@@ -1,5 +1,6 @@
 package com.jc.steamachievementschecker.data.db
 
+import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.GameInfo
 import io.mockk.Runs
 import io.mockk.coEvery
@@ -34,8 +35,8 @@ class RoomGameInfoRepositoryTest {
     fun `SHOULD convert to game info WHEN fetching db data`() =
         runTest {
             // Arrange
-            val game1 = GameInfoDbEntity(1, "Game 1", 50)
-            val game2 = GameInfoDbEntity(2, "Game 2", 75)
+            val game1 = GameInfoDbEntity(1, "Game 1", 50, false)
+            val game2 = GameInfoDbEntity(2, "Game 2", 75, false)
             val games = listOf(game1, game2)
             coEvery { gameInfoDao.getAll() } returns games
 
@@ -44,8 +45,8 @@ class RoomGameInfoRepositoryTest {
 
             // Assert
             val expected = listOf(
-                GameInfo(1, "Game 1", 50),
-                GameInfo(2, "Game 2", 75)
+                GameInfo(1, "Game 1", AchievementsResult.HasAchievements(50)),
+                GameInfo(2, "Game 2", AchievementsResult.HasAchievements(75))
             )
             assertEquals(expected, result)
         }
@@ -55,14 +56,14 @@ class RoomGameInfoRepositoryTest {
         runTest {
             // Arrange
             coEvery { gameInfoDao.insertAll(any()) } just Runs
-            val games = listOf(GameInfo(1, "Game 1", 50))
+            val games = listOf(GameInfo(1, "Game 1", AchievementsResult.HasAchievements(50)))
 
             // Act
             repository.saveGameInfo(games)
 
             // Assert
             coVerify {
-                gameInfoDao.insertAll(listOf(GameInfoDbEntity(1, "Game 1", 50)))
+                gameInfoDao.insertAll(listOf(GameInfoDbEntity(1, "Game 1", 50, false)))
             }
         }
 }

@@ -1,6 +1,7 @@
 package com.jc.steamachievementschecker.data.network
 
 import com.jc.steamachievementschecker.core.AchievementsRepository
+import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.Game
 import kotlinx.coroutines.delay
 import timber.log.Timber
@@ -20,26 +21,36 @@ class SteamAchievementsRepository(
             .games
             .map { Game(it.appid, it.name) }
 
-    override suspend fun getAchievementsPercentageByGame(appId: Int): Int =
+    override suspend fun getAchievementsPercentageByGame(appId: Int): AchievementsResult =
         getAchievementsPercentageByGameWithRetry(appId, maxRetries = MAX_RETRIES)
 
     private suspend fun getAchievementsPercentageByGameWithRetry(
         appId: Int,
         maxRetries: Int,
         currentAttempt: Int = 0
-    ): Int {
+    ): AchievementsResult {
         try {
             val callResult = steamApi.getAchievementsByGame(appId)
-            val allAchievements = callResult.playerstats.achievements
 
-            if (allAchievements.isEmpty()) {
-                Timber.w("Game $appId has no achievements")
-                return 0
+            return when (val playerStats = callResult.playerstats) {
+                is PlayerStatsApiEntity.Success -> {
+                    val allAchievements = playerStats.achievements
+
+                    if (allAchievements.isEmpty()) {
+                        Timber.w("Game $appId has no achievements")
+                        AchievementsResult.NoAchievements
+                    } else {
+                        val allAchieved = allAchievements.count { it.achieved == 1 }.toDouble()
+                        val raw = allAchieved / allAchievements.size
+                        val percentage = (raw * 100).toInt()
+                        AchievementsResult.HasAchievements(percentage)
+                    }
+                }
+                is PlayerStatsApiEntity.Error -> {
+                    Timber.w("Game $appId returned error: ${playerStats.error}")
+                    AchievementsResult.NoAchievements
+                }
             }
-
-            val allAchieved = allAchievements.count { it.achieved == 1 }.toDouble()
-            val raw = allAchieved / allAchievements.size
-            return (raw * 100).toInt()
         } catch (ex: IOException) {
             if (currentAttempt < maxRetries) {
                 val delayMs = (2.0.pow(currentAttempt) * 1000).toLong()
@@ -52,11 +63,11 @@ class SteamAchievementsRepository(
             } else {
                 val msg = "Failed to fetch achievements for game $appId after $maxRetries retries"
                 Timber.e(ex, msg)
-                return 0
+                return AchievementsResult.NoAchievements
             }
         } catch (t: Throwable) {
             Timber.e(t, "Unexpected error fetching achievements for game $appId")
-            return 0
+            return AchievementsResult.NoAchievements
         }
     }
 }

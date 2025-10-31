@@ -2,6 +2,7 @@ package com.jc.steamachievementschecker.presentation.achievementslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.ForceRefreshMyAchievementsUseCase
 import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.core.GetMyAchievementsUseCase
@@ -46,9 +47,21 @@ class AchievementsListViewModel(
         }
     }
 
-    private fun List<GameInfoItem>.computeAverage() = sumOf { it.achievementsPercentage } / size
+    private fun List<GameInfoItem>.computeAverage() =
+        sumOf { gameInfoItem ->
+            when (val result = gameInfoItem.achievementsResult) {
+                is AchievementsResult.HasAchievements -> result.percentage
+                is AchievementsResult.NoAchievements -> 0
+            }
+        } / size
 
-    private fun List<GameInfoItem>.computeMaxed() = filter { it.achievementsPercentage == 100 }.size
+    private fun List<GameInfoItem>.computeMaxed() =
+        count { gameInfoItem ->
+            when (val result = gameInfoItem.achievementsResult) {
+                is AchievementsResult.HasAchievements -> result.percentage == 100
+                is AchievementsResult.NoAchievements -> false
+            }
+        }
 
     sealed interface AchievementsListUiState {
         data object Loading : AchievementsListUiState
