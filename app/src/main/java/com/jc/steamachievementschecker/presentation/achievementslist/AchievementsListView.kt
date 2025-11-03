@@ -10,8 +10,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -31,8 +29,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.jc.steamachievementschecker.R
 import com.jc.steamachievementschecker.core.AchievementsResult
 import com.jc.steamachievementschecker.core.GameInfoItem
 import com.jc.steamachievementschecker.presentation.achievementslist.AchievementsListViewModel.AchievementsListUiState
@@ -68,8 +68,12 @@ internal fun AchievementsListView(
                             }
                         }
                     ) {
+                        val res = when (displayType) {
+                            LIST -> R.drawable.ic_grid
+                            GRID -> R.drawable.ic_list
+                        }
                         Icon(
-                            imageVector = Icons.Filled.Edit,
+                            painter = painterResource(res),
                             contentDescription = "Change display layout"
                         )
                     }
