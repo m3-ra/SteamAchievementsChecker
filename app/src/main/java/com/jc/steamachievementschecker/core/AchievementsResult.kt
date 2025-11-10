@@ -2,7 +2,9 @@ package com.jc.steamachievementschecker.core
 
 sealed class AchievementsResult {
     data class HasAchievements(
-        val percentage: Int
+        val percentage: Int,
+        val unlockedCount: Int,
+        val totalCount: Int
     ) : AchievementsResult()
     data object NoAchievements : AchievementsResult()
 }

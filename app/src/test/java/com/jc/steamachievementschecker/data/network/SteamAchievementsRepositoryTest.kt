@@ -77,7 +77,7 @@ class SteamAchievementsRepositoryTest {
             val result = repository.getAchievementsPercentageByGame(4190)
 
             // Assert
-            assertEquals(AchievementsResult.HasAchievements(50), result)
+            assertEquals(AchievementsResult.HasAchievements(50, 1, 2), result)
         }
 
     @Test
@@ -127,7 +127,7 @@ class SteamAchievementsRepositoryTest {
             val result = repository.getAchievementsPercentageByGame(4190)
 
             // Assert
-            assertEquals(AchievementsResult.HasAchievements(100), result)
+            assertEquals(AchievementsResult.HasAchievements(100, 1, 1), result)
             coVerify(exactly = 2) { steamApi.getAchievementsByGame(4190) }
         }
 

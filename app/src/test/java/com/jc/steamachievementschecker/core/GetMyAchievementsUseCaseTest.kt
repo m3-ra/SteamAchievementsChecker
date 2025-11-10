@@ -64,9 +64,9 @@ class GetMyAchievementsUseCaseTest {
             coEvery {
                 gameInfoRepository.getAllGameInfo()
             } returns listOf(
-                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50)),
-                GameInfo(2, "Game abc", AchievementsResult.HasAchievements(100)),
-                GameInfo(3, "Game def", AchievementsResult.HasAchievements(50))
+                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20)),
+                GameInfo(2, "Game abc", AchievementsResult.HasAchievements(100, 20, 20)),
+                GameInfo(3, "Game def", AchievementsResult.HasAchievements(50, 10, 20))
             )
             val useCase = GetMyAchievementsUseCase(
                 fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
@@ -79,9 +79,9 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "Game abc", "Ga"),
-                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "Game def", "Gd"),
-                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "Game xyz", "Gx")
+                GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100, 20, 20), "Game abc", "Ga"),
+                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50, 10, 20), "Game def", "Gd"),
+                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20), "Game xyz", "Gx")
             )
             assertEquals(expected, result)
         }
@@ -94,11 +94,11 @@ class GetMyAchievementsUseCaseTest {
             coEvery {
                 gameInfoRepository.getAllGameInfo()
             } returns listOf(
-                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50)),
+                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20)),
                 GameInfo(2, "Game abc", AchievementsResult.NoAchievements),
-                GameInfo(3, "Game def", AchievementsResult.HasAchievements(100)),
+                GameInfo(3, "Game def", AchievementsResult.HasAchievements(100, 20, 20)),
                 GameInfo(4, "Another Game", AchievementsResult.NoAchievements),
-                GameInfo(5, "The Game", AchievementsResult.HasAchievements(0))
+                GameInfo(5, "The Game", AchievementsResult.HasAchievements(0, 0, 20))
             )
             val useCase = GetMyAchievementsUseCase(
                 fetchAchievementsOnlineUseCase = fetchAchievementsOnlineUseCase,
@@ -111,10 +111,10 @@ class GetMyAchievementsUseCaseTest {
 
             // Assert
             val expected = listOf(
-                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(100), "Game def", "Gd"),
-                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "Game xyz", "Gx"),
+                GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(100, 20, 20), "Game def", "Gd"),
+                GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20), "Game xyz", "Gx"),
+                GameInfoItem(5, "The Game", AchievementsResult.HasAchievements(0, 0, 20), "Game", "TG"),
                 GameInfoItem(4, "Another Game", AchievementsResult.NoAchievements, "Another Game", "AG"),
-                GameInfoItem(5, "The Game", AchievementsResult.HasAchievements(0), "Game", "TG"),
                 GameInfoItem(2, "Game abc", AchievementsResult.NoAchievements, "Game abc", "Ga")
             )
             assertEquals(expected, result)

@@ -40,10 +40,14 @@ class SteamAchievementsRepository(
                         Timber.w("Game $appId has no achievements")
                         AchievementsResult.NoAchievements
                     } else {
-                        val allAchieved = allAchievements.count { it.achieved == 1 }.toDouble()
-                        val raw = allAchieved / allAchievements.size
-                        val percentage = (raw * 100).toInt()
-                        AchievementsResult.HasAchievements(percentage)
+                        val unlockedCount = allAchievements.count { it.achieved == 1 }
+                        val totalCount = allAchievements.size
+                        val percentage = ((unlockedCount.toDouble() / totalCount) * 100).toInt()
+                        AchievementsResult.HasAchievements(
+                            percentage = percentage,
+                            unlockedCount = unlockedCount,
+                            totalCount = totalCount
+                        )
                     }
                 }
                 is PlayerStatsApiEntity.Error -> {

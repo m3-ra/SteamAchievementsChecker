@@ -23,7 +23,11 @@ class RoomGameInfoRepository(
             achievementsResult = if (hasNoAchievements) {
                 AchievementsResult.NoAchievements
             } else {
-                AchievementsResult.HasAchievements(achievementsPercentage)
+                AchievementsResult.HasAchievements(
+                    percentage = achievementsPercentage,
+                    unlockedCount = achievementsUnlocked,
+                    totalCount = achievementsTotal
+                )
             }
         )
 
@@ -33,12 +37,16 @@ class RoomGameInfoRepository(
                 id = id,
                 name = name,
                 achievementsPercentage = result.percentage,
+                achievementsUnlocked = result.unlockedCount,
+                achievementsTotal = result.totalCount,
                 hasNoAchievements = false
             )
             AchievementsResult.NoAchievements -> GameInfoDbEntity(
                 id = id,
                 name = name,
                 achievementsPercentage = 0,
+                achievementsUnlocked = 0,
+                achievementsTotal = 0,
                 hasNoAchievements = true
             )
         }

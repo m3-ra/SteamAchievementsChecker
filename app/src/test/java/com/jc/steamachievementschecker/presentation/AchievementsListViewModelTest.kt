@@ -36,9 +36,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are fetched`() {
         // Arrange
         val games = listOf(
-            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "abc", "a"),
-            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "def", "d"),
-            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "xyz", "x")
+            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100, 20, 20), "abc", "a"),
+            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50, 10, 20), "def", "d"),
+            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20), "xyz", "x")
         )
         coEvery { getMyAchievementsUseCase() } returns games
 
@@ -53,9 +53,9 @@ class AchievementsListViewModelTest {
     fun `SHOULD have success state WHEN games are force refreshed`() {
         // Arrange
         val games = listOf(
-            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100), "abc", "a"),
-            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50), "def", "d"),
-            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50), "xyz", "x")
+            GameInfoItem(2, "Game abc", AchievementsResult.HasAchievements(100, 20, 20), "abc", "a"),
+            GameInfoItem(3, "Game def", AchievementsResult.HasAchievements(50, 10, 20), "def", "d"),
+            GameInfoItem(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20), "xyz", "x")
         )
         coEvery { forceRefreshMyAchievementsUseCase() } returns games
 
@@ -70,11 +70,11 @@ class AchievementsListViewModelTest {
     fun `SHOULD compute correct stats WHEN some games have no achievements`() {
         // Arrange
         val games = listOf(
-            GameInfoItem(1, "Game with achievements", AchievementsResult.HasAchievements(100), "abc", "a"),
+            GameInfoItem(1, "Game with achievements", AchievementsResult.HasAchievements(100, 20, 20), "abc", "a"),
             GameInfoItem(2, "Game without achievements", AchievementsResult.NoAchievements, "def", "d"),
-            GameInfoItem(3, "Game half done", AchievementsResult.HasAchievements(50), "xyz", "x"),
+            GameInfoItem(3, "Game half done", AchievementsResult.HasAchievements(50, 10, 20), "xyz", "x"),
             GameInfoItem(4, "Another no achievements", AchievementsResult.NoAchievements, "ghi", "g"),
-            GameInfoItem(5, "Game not started", AchievementsResult.HasAchievements(0), "jkl", "j")
+            GameInfoItem(5, "Game not started", AchievementsResult.HasAchievements(0, 0, 20), "jkl", "j")
         )
         coEvery { getMyAchievementsUseCase() } returns games
 
