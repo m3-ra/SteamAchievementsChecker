@@ -34,22 +34,22 @@ class FetchAchievementsOnlineUseCaseTest {
 
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(1)
-            } returns AchievementsResult.HasAchievements(50, 10, 20)
+            } returns AchievementsResult.HasAchievements(50.0, 10, 20)
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(2)
-            } returns AchievementsResult.HasAchievements(100, 20, 20)
+            } returns AchievementsResult.HasAchievements(100.0, 20, 20)
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(3)
-            } returns AchievementsResult.HasAchievements(50, 10, 20)
+            } returns AchievementsResult.HasAchievements(50.0, 10, 20)
 
             // Act
             val result = useCase()
 
             // Assert
             val expected = listOf(
-                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20)),
-                GameInfo(2, "Game abc", AchievementsResult.HasAchievements(100, 20, 20)),
-                GameInfo(3, "Game def", AchievementsResult.HasAchievements(50, 10, 20))
+                GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50.0, 10, 20)),
+                GameInfo(2, "Game abc", AchievementsResult.HasAchievements(100.0, 20, 20)),
+                GameInfo(3, "Game def", AchievementsResult.HasAchievements(50.0, 10, 20))
             )
             assertEquals(expected, result)
         }
@@ -62,13 +62,13 @@ class FetchAchievementsOnlineUseCaseTest {
             coEvery { achievementsRepository.getMyGames() } returns listOf(Game(1, "Game xyz"))
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(1)
-            } returns AchievementsResult.HasAchievements(50, 10, 20)
+            } returns AchievementsResult.HasAchievements(50.0, 10, 20)
 
             // Act
             useCase()
 
             // Assert
-            val expected = listOf(GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50, 10, 20)))
+            val expected = listOf(GameInfo(1, "Game xyz", AchievementsResult.HasAchievements(50.0, 10, 20)))
             coVerify { gameInfoRepository.saveGameInfo(expected) }
         }
 
@@ -89,30 +89,30 @@ class FetchAchievementsOnlineUseCaseTest {
 
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(1)
-            } returns AchievementsResult.HasAchievements(50, 10, 20)
+            } returns AchievementsResult.HasAchievements(50.0, 10, 20)
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(2)
             } returns AchievementsResult.NoAchievements
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(3)
-            } returns AchievementsResult.HasAchievements(100, 20, 20)
+            } returns AchievementsResult.HasAchievements(100.0, 20, 20)
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(4)
             } returns AchievementsResult.NoAchievements
             coEvery {
                 achievementsRepository.getAchievementsPercentageByGame(5)
-            } returns AchievementsResult.HasAchievements(0, 0, 20)
+            } returns AchievementsResult.HasAchievements(0.0, 0, 20)
 
             // Act
             val result = useCase()
 
             // Assert
             val expected = listOf(
-                GameInfo(1, "Game with achievements", AchievementsResult.HasAchievements(50, 10, 20)),
+                GameInfo(1, "Game with achievements", AchievementsResult.HasAchievements(50.0, 10, 20)),
                 GameInfo(2, "Game without achievements", AchievementsResult.NoAchievements),
-                GameInfo(3, "Game fully completed", AchievementsResult.HasAchievements(100, 20, 20)),
+                GameInfo(3, "Game fully completed", AchievementsResult.HasAchievements(100.0, 20, 20)),
                 GameInfo(4, "Another game without achievements", AchievementsResult.NoAchievements),
-                GameInfo(5, "Game partially completed", AchievementsResult.HasAchievements(0, 0, 20))
+                GameInfo(5, "Game partially completed", AchievementsResult.HasAchievements(0.0, 0, 20))
             )
             assertEquals(expected, result)
         }

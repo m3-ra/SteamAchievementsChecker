@@ -48,17 +48,19 @@ class AchievementsListViewModel(
     }
 
     private fun List<GameInfoItem>.computeAverage() =
-        sumOf { gameInfoItem ->
-            when (val result = gameInfoItem.achievementsResult) {
-                is AchievementsResult.HasAchievements -> result.percentage
-                is AchievementsResult.NoAchievements -> 0
-            }
-        } / size
+        (
+            sumOf { gameInfoItem ->
+                when (val result = gameInfoItem.achievementsResult) {
+                    is AchievementsResult.HasAchievements -> result.percentage
+                    is AchievementsResult.NoAchievements -> 0.0
+                }
+            } / size
+        ).toInt()
 
     private fun List<GameInfoItem>.computeMaxed() =
         count { gameInfoItem ->
             when (val result = gameInfoItem.achievementsResult) {
-                is AchievementsResult.HasAchievements -> result.percentage == 100
+                is AchievementsResult.HasAchievements -> result.percentage == 100.0
                 is AchievementsResult.NoAchievements -> false
             }
         }

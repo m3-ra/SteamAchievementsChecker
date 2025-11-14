@@ -44,7 +44,7 @@ class RoomGameInfoRepository(
             AchievementsResult.NoAchievements -> GameInfoDbEntity(
                 id = id,
                 name = name,
-                achievementsPercentage = 0,
+                achievementsPercentage = 0.0,
                 achievementsUnlocked = 0,
                 achievementsTotal = 0,
                 hasNoAchievements = true

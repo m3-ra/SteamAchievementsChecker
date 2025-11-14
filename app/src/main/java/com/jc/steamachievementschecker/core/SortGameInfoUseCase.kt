@@ -22,7 +22,7 @@ class SortGameInfoUseCase(
             }.thenByDescending {
                 when (val result = it.achievementsResult) {
                     is AchievementsResult.HasAchievements -> result.percentage
-                    is AchievementsResult.NoAchievements -> 0
+                    is AchievementsResult.NoAchievements -> 0.0
                 }
             }.thenBy(String.CASE_INSENSITIVE_ORDER) { it.displayName }
         )

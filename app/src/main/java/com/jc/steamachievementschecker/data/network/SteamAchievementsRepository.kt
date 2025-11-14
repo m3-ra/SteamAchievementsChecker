@@ -42,7 +42,7 @@ class SteamAchievementsRepository(
                     } else {
                         val unlockedCount = allAchievements.count { it.achieved == 1 }
                         val totalCount = allAchievements.size
-                        val percentage = ((unlockedCount.toDouble() / totalCount) * 100).toInt()
+                        val percentage = (unlockedCount.toDouble() / totalCount) * 100
                         AchievementsResult.HasAchievements(
                             percentage = percentage,
                             unlockedCount = unlockedCount,

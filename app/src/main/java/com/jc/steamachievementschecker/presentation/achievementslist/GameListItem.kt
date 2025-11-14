@@ -31,7 +31,7 @@ internal fun GameListItem(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             val achievementText = when (val result = game.achievementsResult) {
-                is AchievementsResult.HasAchievements -> "${result.percentage}%"
+                is AchievementsResult.HasAchievements -> "${result.displayPercentage}%"
                 is AchievementsResult.NoAchievements -> "No achievements"
             }
             Text(text = "${game.name} - $achievementText")
@@ -54,7 +54,7 @@ internal fun GameListItem(
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = "Achievement Progress: ${result.percentage}%",
+                            text = "Achievement Progress: ${result.displayPercentage}%",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(

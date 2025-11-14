@@ -28,7 +28,7 @@ internal fun GameGridItem(
             style = MaterialTheme.typography.labelSmall
         )
         val achievementText = when (val result = game.achievementsResult) {
-            is AchievementsResult.HasAchievements -> "${result.percentage}%"
+            is AchievementsResult.HasAchievements -> "${result.displayPercentage}%"
             is AchievementsResult.NoAchievements -> "N/A"
         }
         Text(

@@ -246,21 +246,21 @@ private val previewGames: List<GameInfoItem> = listOf(
     GameInfoItem(
         id = 2,
         name = "Game abc",
-        achievementsResult = AchievementsResult.HasAchievements(100, 20, 20),
+        achievementsResult = AchievementsResult.HasAchievements(100.0, 20, 20),
         displayName = "abc",
         shortName = "a"
     ),
     GameInfoItem(
         id = 3,
         name = "Game def",
-        achievementsResult = AchievementsResult.HasAchievements(50, 10, 20),
+        achievementsResult = AchievementsResult.HasAchievements(50.0, 10, 20),
         displayName = "def",
         shortName = "d"
     ),
     GameInfoItem(
         id = 1,
         name = "Game xyz",
-        achievementsResult = AchievementsResult.HasAchievements(75, 15, 20),
+        achievementsResult = AchievementsResult.HasAchievements(75.0, 15, 20),
         displayName = "xyz",
         shortName = "x"
     )
