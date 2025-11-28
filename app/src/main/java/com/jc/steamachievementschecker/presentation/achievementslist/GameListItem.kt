@@ -54,7 +54,7 @@ internal fun GameListItem(
                             style = MaterialTheme.typography.titleMedium
                         )
                         Text(
-                            text = "Achievement Progress: ${result.displayPercentage}%",
+                            text = "Achievement Progress: ${"%.2f".format(result.percentage)}%",
                             style = MaterialTheme.typography.bodyMedium
                         )
                         Text(

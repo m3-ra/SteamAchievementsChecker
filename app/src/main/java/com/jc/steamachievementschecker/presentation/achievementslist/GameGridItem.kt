@@ -20,7 +20,7 @@ internal fun GameGridItem(
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
-            .padding(horizontal = 2.dp)
+            .padding(horizontal = 2.dp, vertical = 8.dp)
             .clickable(onClick = onClick)
     ) {
         Text(

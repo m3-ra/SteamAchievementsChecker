@@ -27,7 +27,7 @@ internal fun GameDetailsBottomSheet(game: GameInfoItem) {
         when (val result = game.achievementsResult) {
             is AchievementsResult.HasAchievements -> {
                 Text(
-                    text = "Achievement Progress: ${result.percentage}%",
+                    text = "Achievement Progress: ${"%.2f".format(result.percentage)}%",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
